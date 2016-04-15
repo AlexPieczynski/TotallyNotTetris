@@ -1,0 +1,25 @@
+
+
+public class Tetromino
+{
+  private Vector<Pair> positions;
+  
+  
+  //the method called each time the timer hits to drop the piece down one
+  //returns false when it hits the ground and can't move down any longer
+  public boolean fallOne()
+  {
+    //get a reference to GUI grid
+    
+    //check if block is clear to move down one space
+    for (Pair p : positions){
+      if (gridAt(p.getX(), p.getY() - 1) == full)
+        return false;
+    }
+    
+    //block is clear, move each coordinate down one
+    for (Pair p : positions)
+      p.setY( p.getY() - 1 );
+    
+    return true;
+}
