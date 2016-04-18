@@ -1,9 +1,18 @@
-
+import java.util.Vector;
 
 public class Tetromino
 {
-  private Vector<Pair> positions;
+  private Vector<Pair> positions = new Vector<Pair>(4);
+  private PieceType type; //only gets set in child classes
   
+  
+  public Tetromino()
+  {
+    for (int i=0; i < positions.capacity(); i++) //set position to something invalid
+      positions.set(i, new Pair(-1,-1));
+    
+    type = PieceType.NULL;        //set type to something invalid
+  }
   
   //the method called each time the timer hits to drop the piece down one
   //returns false when it hits the ground and can't move down any longer
@@ -22,4 +31,5 @@ public class Tetromino
       p.setY( p.getY() - 1 );
     
     return true;
+  }
 }
