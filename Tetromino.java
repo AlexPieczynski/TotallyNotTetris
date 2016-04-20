@@ -32,4 +32,33 @@ public class Tetromino
     
     return true;
   }
+  
+  //called from keyListener for left arrow key
+  //move the piece to the left one spot on the grid, if possible
+  //returns true if the piece moved, false otherwise
+  public boolean moveLeft()
+  {
+    for (Pair p : positions){
+      if (gridAt( p.getX()-1, p.getY()) == full)
+        return false;
+    }
+    
+    for (Pair p : positions)
+      p.setX(p.getX() - 1);
+  }
+  
+  
+  //called from keyListener for right arrow key
+  //move the piece to the right one spot on the grid, if possible
+  //returns true if the piece moved, false otherwise
+  public boolean moveRight()
+  {
+    for (Pair p : positions){
+      if (gridAt( p.getX()+1, p.getY()) == full)
+        return false;
+    }
+    
+    for (Pair p : positions)
+      p.setX(p.getX() + 1);
+  }
 }
