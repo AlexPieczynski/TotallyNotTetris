@@ -24,12 +24,7 @@ public class Tetromino extends JComponent
   { 
     this.type = type; //Set the type of piece.
     orientation = OrientationType.NORMAL; //Set default orientation.
-        System.out.println("WE IN HERE!");
-    
-    Dimension d = new Dimension(getNumCols()*BLOCK_SIZE, getNumRows()*BLOCK_SIZE);
-    this.setSize(d);
-    this.setPreferredSize(d);
-    this.setOpaque(false);
+    this.shape = shape;
   }
   
   //Method to change the orientation  of a piece.
@@ -79,8 +74,13 @@ public class Tetromino extends JComponent
     return shape;
   }
   
-  public void setShape(int[][] shape){
+  public void setShape(int[][] shape){ //Set the shape array and dimensions of the Tetromino
     this.shape = shape;
+    
+    Dimension d = new Dimension(getNumCols()*BLOCK_SIZE, getNumRows()*BLOCK_SIZE);
+    this.setSize(d);
+    this.setPreferredSize(d);
+    this.setOpaque(false);
   }
   
   public void drawBlock(Graphics g, int row, int col){ //Method to draw a block of a tetromino.
@@ -102,7 +102,6 @@ public class Tetromino extends JComponent
    }
    
    public int getNumCols(){
-     System.out.println(Arrays.toString(shape));
      return shape[0].length;
    }
    

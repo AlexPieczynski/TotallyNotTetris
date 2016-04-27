@@ -59,6 +59,7 @@ public class IPiece extends Tetromino{
 
 public class TPiece extends Tetromino{
   public TPiece(){
+    
     super(PieceType.T);
     int[][] shape; //Get reference to the shape array.
     shape = new int[][]{

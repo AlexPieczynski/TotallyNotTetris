@@ -6,11 +6,11 @@ public class TetrisTest extends JFrame{
     test.setVisible(true);
     
     PieceFactory p = new PieceFactory();
-    Tetromino t = p.getPiece("T");
+    Tetromino t = p.getPiece("J");
     
     test.setSize(200,200);
+    
     test.add(t);
     t.repaint();
- 
   }
 }
