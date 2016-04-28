@@ -15,13 +15,13 @@ public class GameBoard extends JPanel {
     private int cellSize;    
     private Timer timer;
     private static int count;
-    private JLabel[][] gameSpace;
+    private TetraBlock[][] gameSpace;
     
     GameBoard() {        
         setSize(winWidth, winHeight);        
         count = 0;
         cellSize = winWidth * winHeight / (rows * cols);
-        gameSpace = new JLabel[rows][cols];  //Create 2d Container Array
+        gameSpace = new TetraBlock[rows][cols];  //Create 2d Container Array
         
         //Initialize timer
         timer = new Timer(400, new ActionListener(){
@@ -40,11 +40,6 @@ public class GameBoard extends JPanel {
         resetSpace();
     }
     
-    public void start(){
-        //if(!timerRunning) 
-            timer.start();
-        
-    }
     
     public void resetSpace(){
         
@@ -53,8 +48,8 @@ public class GameBoard extends JPanel {
         //Using regular nested loops, not sure how to do the other method for 2d...
         for(j = 0; j<cols; j++){
             for(i = 0; i<rows; i++){
-                gameSpace[i][j] = new JLabel(); //usig label as a placeholder, maybe good?
-                gameSpace[i][j].setText("   x");//text to show grid is populating correctly
+                gameSpace[i][j] = new TetraBlock(); //usig label as a placeholder, maybe good?
+                //gameSpace[i][j].setText("   x");//text to show grid is populating correctly
                 gameSpace[i][j].setFocusable(false);
                 add(gameSpace[i][j]);
             }

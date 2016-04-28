@@ -4,6 +4,11 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import static java.awt.event.KeyEvent.VK_LEFT;
+import static java.awt.event.KeyEvent.VK_RIGHT;
+import static java.awt.event.KeyEvent.VK_SPACE;
+import static java.awt.event.KeyEvent.VK_X;
+import static java.awt.event.KeyEvent.VK_Z;
 import java.awt.event.KeyListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -14,24 +19,34 @@ import javax.swing.JPanel;
 
 
 public class GameGUI extends JFrame implements KeyListener {
+    private static GameGUI INSTANCE = null;    //Create instace holder
     
-    public GameGUI(){
+    private GameGUI(){
         initComponents();
     }
     
     
     public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new GameGUI().setVisible(true);
-            }
-        });
+        //
+        getInstance();
     }
     
     //----------------Methods------------------//
     
+    public static GameGUI getInstance(){
+        if(INSTANCE == null){
+            INSTANCE = new GameGUI();
+        }
+        return INSTANCE;
+    }
     
+    
+    public void start(){
+        //Create instance of GameState
+        game = new GameState();
+    }
+           
+            
     @Override
     public void keyTyped(KeyEvent e) {
         //Not used
@@ -41,7 +56,28 @@ public class GameGUI extends JFrame implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         //Works for arrow keys and letter keys
-        System.out.println("I heard your key pressed");
+        
+        int key = e.getKeyCode();
+        
+        switch(key){
+            case VK_LEFT://to move left
+                System.out.println("move left");
+                break;
+            case VK_RIGHT:
+                System.out.println("move right");
+                break;
+            case VK_Z:
+                System.out.println("rotate ccw");
+                break;    
+            case VK_X:
+                System.out.println("rotate cw");
+                break;    
+            case VK_SPACE:
+                System.out.println("DROP IT!!!!");
+                break;   
+            default:    //Nevermind this
+                break;
+        }
     }
 
     
@@ -70,7 +106,7 @@ public class GameGUI extends JFrame implements KeyListener {
         startButton.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                board.start();
+                start();
             }
         });
         startButton.setFocusable(false);    //Don't distract from keyListener
@@ -153,6 +189,7 @@ public class GameGUI extends JFrame implements KeyListener {
         add(container);
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
+        System.out.println("I am " + this.hashCode() + " in the GUI.");
     }
     
     //------------Variables-------------//
@@ -172,4 +209,5 @@ public class GameGUI extends JFrame implements KeyListener {
     private JButton rotateLBtn;
     private JButton rotateRBtn;
     private JButton dropBtn;
+    private GameState game;
 }
