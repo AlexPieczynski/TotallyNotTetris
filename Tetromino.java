@@ -3,18 +3,22 @@ import java.util.*;
 import javax.swing.*;
 import java.awt.*;
 
-public class Tetromino extends JComponent
+public abstract class Tetromino extends JComponent
 {
   //An array of ints to hold the "shapes" and possible "shapes" of each piece.
   //Used for collision detection.
-  private int[][] shape; //Values to be set by child classes.
   
-  private PieceType type; //only gets set in child classes
-  private OrientationType orientation;
-  private static final int BLOCK_SIZE = 20;
+  protected int[][][] possibleShapes;
+  protected int[][] shape; //Values to be set by child classes.
   
-  private int xCord = 0;
-  private int yCord = 0;
+  protected int oStatus = 0; //Used to cycle through OrientationType enum.
+  
+  protected PieceType type; //only gets set in child classes
+  protected OrientationType orientation;
+  protected static final int BLOCK_SIZE = 20;
+  
+  protected int xCord = 0;
+  protected int yCord = 0;
   
   //*****FIX ME!!!****
   //Temp variable so class will compile. To be used in GUI later to see if the board is full.
@@ -28,8 +32,8 @@ public class Tetromino extends JComponent
   }
   
   //Method to change the orientation  of a piece.
-  public void setOrientation(OrientationType newOrientation){
-    orientation = newOrientation;
+  public void setOrientation(OrientationType orientation){
+    this.orientation = orientation;
   }
   
   //the method called each time the timer hits to drop the piece down one
@@ -103,6 +107,22 @@ public class Tetromino extends JComponent
    
    public int getNumCols(){
      return shape[0].length;
+   }
+   
+   public void rotate(){
+     
+     if(this.type == PieceType.O){ //If square piece, do nothing.
+       return;
+     }
+     if(this.oStatus < 3){ //For all others, cycle through list of possible values.
+       oStatus++;
+     }
+     else{
+       oStatus = 0;
+     }
+     setShape(possibleShapes[oStatus]); //Update the new shape. 
+     OrientationType[] values = OrientationType.values(); //Update new orientation.
+     setOrientation(values[oStatus]);
    }
    
 }

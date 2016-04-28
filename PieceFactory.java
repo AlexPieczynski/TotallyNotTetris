@@ -50,9 +50,18 @@ public class PieceFactory{
 public class IPiece extends Tetromino{
   public IPiece(){
     super(PieceType.I);
-    int[][] shape; //Get reference to the shape array.
-    shape = new int[][]{{1,1,1,1}}; //Set array for I shape.
-    this.setShape(shape);
+    //Create array of all possible shapes for this tetromino.
+    possibleShapes = new int[][][]{
+      {{1,1,1,1}},   //Orientation 1.
+        
+      {{1},{1},{1},{1}}, //Orientation 2.
+      
+      {{1,1,1,1}},  //Orientation 1.
+      
+      {{1},{1},{1},{1}} //Orientation 2.
+      }; //Set array for I shape.
+            
+    this.setShape(possibleShapes[0]);
   }
   
 }
@@ -61,20 +70,31 @@ public class TPiece extends Tetromino{
   public TPiece(){
     
     super(PieceType.T);
-    int[][] shape; //Get reference to the shape array.
-    shape = new int[][]{
-      {0,1},
+    //Create array of all possible shapes for this tetromino.
+    possibleShapes = new int[][][]{
+     {{0,1}, //Orientation 1.
       {1,1},
-      {0,1}};
-    this.setShape(shape);
+      {0,1}},
+     
+     {{1,1,1}, //Orientation 2.
+      {0,1,0}},
+     
+      {{1,0}, //Orientation 3.
+       {1,1},
+       {1,0}},
+       
+       {{0,1,0}, //Orientation 4.
+        {1,1,1}}
+        };
+    this.setShape(possibleShapes[0]);
   }
 }
 
 public class OPiece extends Tetromino{
   public OPiece(){
     super(PieceType.O);
-    int[][] shape; //Get reference to the shape array.
-    shape = new int[][]{
+    //Create array of all possible shapes for this tetromino.
+    int[][] shape = new int[][]{
       {1,1},
       {1,1}}; //Set array for O shape.
     this.setShape(shape);
@@ -84,52 +104,92 @@ public class OPiece extends Tetromino{
 public class LPiece extends Tetromino{
   public LPiece(){
     super(PieceType.L);
-    int[][] shape; //Get reference to the shape array.
-    shape = new int[][]{
+    //Create array of all possible shapes for this tetromino.
+    possibleShapes = new int[][][]{
+     {{1,0}, //Orientation 1.
       {1,0},
-      {1,0},
-      {1,1}}; //Set array for L shape.
-    this.setShape(shape);
+      {1,1}},
+     
+     {{0,0,1}, //Orientation 2.
+      {1,1,1}},
+     
+      {{1,1}, //Orientation 3.
+       {0,1},
+       {0,1}},
+       
+      {{1,1,1}, //Orientation 4.
+       {1,0,0}}
+        };
+    this.setShape(possibleShapes[0]);
   }
 }
 
 public class JPiece extends Tetromino{
   public JPiece(){
     super(PieceType.J);
-    int[][] shape; //Get reference to the shape array.
-    shape = new int[][]{
+    //Create array of all possible shapes for this tetromino.
+    possibleShapes = new int[][][]{
+     {{0,1}, //Orientation 1.
       {0,1},
-      {0,1},
-      {1,1}}; //Set array for J shape.
-    this.setShape(shape);
+      {1,1}},
+     
+     {{1,1,1}, //Orientation 2.
+      {0,0,1}},
+     
+      {{1,1}, //Orientation 3.
+       {1,0},
+       {1,0}},
+       
+      {{1,0,0}, //Orientation 4.
+       {1,1,1}}
+        };
+    this.setShape(possibleShapes[0]);
   }
 }
-//NOTE: S & Z pieces are rotated on creation to stay consistent with most Tetris implementations.
 public class SPiece extends Tetromino{
   public SPiece(){
     super(PieceType.S);
-    int[][] shape; //Get reference to the shape array.
-    shape = new int[][]{
-      {1,0},
+     //Create array of all possible shapes for this tetromino.
+    possibleShapes = new int[][][]{
+     {{1,0}, //Orientation 1.
       {1,1},
-      {0,1}}; //Set array for S shape.
-    this.setOrientation(OrientationType.LEFT_TILTED);
-    this.setShape(shape);
+      {0,1}},
+     
+     {{0,1,1}, //Orientation 2.
+      {1,1,0}},
+     
+      {{1,0}, //Orientation 3.
+       {1,1},
+       {0,1}},
+       
+      {{0,1,1}, //Orientation 4.
+       {1,1,0}}
+        };
+    this.setShape(possibleShapes[0]);
   }
 }
 
 public class ZPiece extends Tetromino{
   public ZPiece(){
     super(PieceType.Z);
-    int[][] shape; //Get reference to the shape array.
-    shape = new int[][]{
-      {0,1},
+    //Create array of all possible shapes for this tetromino.
+    possibleShapes = new int[][][]{
+     {{0,1}, //Orientation 1.
       {1,1},
-      {1,0}}; //Set array for L shape.
-    this.setOrientation(OrientationType.RIGHT_TILTED);
-    this.setShape(shape);
+      {1,0}},
+     
+     {{1,1,0}, //Orientation 2.
+      {0,1,1}},
+     
+      {{0,1}, //Orientation 3.
+       {1,1},
+       {1,0}},
+       
+      {{1,1,0}, //Orientation 4.
+       {0,1,1}}
+        };
+    this.setShape(possibleShapes[0]);
   }
 }
-  
-  
+
 }

@@ -6,7 +6,8 @@ public class TetrisTest extends JFrame{
     test.setVisible(true);
     
     PieceFactory p = new PieceFactory();
-    Tetromino t = p.getPiece("J");
+    Tetromino t = p.getPiece("o");
+    t.rotate();
     
     test.setSize(200,200);
     
