@@ -20,6 +20,7 @@ public class GameState
     //timer.start();
   }
   
+  
   public void pieceDropped()
   {
     score += 10;
@@ -28,9 +29,7 @@ public class GameState
   
   
   public void linesCleared(int n)
-  {
-    linesCleared += n;
-    
+  {    
     //update score based on n
     switch (n)
     {
@@ -50,14 +49,20 @@ public class GameState
         score = -1;
         break;
     }
+    
+    linesCleared += n;
+    
+    // level every 10 lines cleared
+    if (linesCleared%10 == 0)
+      level++;
   }
   
   
   //function that gets called when the Timer fires
-  private class TimeHandler implements ActionListener{
-    public void actionPerformed( ActionEvent event )
-    {
-      //make piece drop
-    }
-  }
+//  private class TimeHandler implements ActionListener{
+//    public void actionPerformed( ActionEvent event )
+//    {
+//      //make piece drop
+//    }
+//  }
 }
