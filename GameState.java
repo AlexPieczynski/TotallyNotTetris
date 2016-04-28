@@ -1,5 +1,7 @@
 //class used to represent the current state of the Tetris game
-import java.util.Timer;
+import javax.swing.Timer;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class GameState
 {
@@ -9,15 +11,16 @@ public class GameState
   private Tetromino currentPiece; //reference to currently falling piece?
   private PieceType nextPiece;
   private Timer timer;
+  private int[][] grid = new int[20][10];
   
   public GameState()
   {
     score = 0;
     linesCleared = 0;
-    level = 0;
+    level = 1;
     nextPiece = PieceType.NULL; //use PieceFactroy class
-    //timer = new Timer(1000, new TimeHandler());
-    //timer.start();
+    timer = new Timer(800, new TimeHandler());
+    timer.start();
   }
   
   
@@ -51,19 +54,21 @@ public class GameState
         break;
     }
     
-    // increment level every ten lines cleared
+    // increment level every ten lines cleared, timer fires faster
     int temp = linesCleared/10;
     linesCleared += n;
-    if ( (linesCleared/10) > temp )
+    if ( (linesCleared/10) > temp ){
       level++;
+      timer.setDelay((int)((50 - (level*2)) / 60.0) * 1000);
+    }    
   }
   
   
   //function that gets called when the Timer fires
-//  private class TimeHandler implements ActionListener{
-//    public void actionPerformed( ActionEvent event )
-//    {
-//      //make piece drop
-//    }
-//  }
+  private class TimeHandler implements ActionListener{
+    public void actionPerformed( ActionEvent event )
+    {
+      // drop falling piece down
+    }
+  }
 }

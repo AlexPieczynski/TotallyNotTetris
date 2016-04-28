@@ -127,12 +127,10 @@ public abstract class Tetromino extends JComponent
      if(this.type == PieceType.O){ //If square piece, do nothing.
        return;
      }
-     if(this.oStatus < 3){ //For all others, cycle through list of possible values.
-       oStatus++;
+     else //For all others, cycle through list of possible values.
+       this.oStatus = (this.oStatus+1)%4; 
      }
-     else{
-       oStatus = 0;
-     }
+     
      setShape(possibleShapes[oStatus]); //Update the new shape. 
      OrientationType[] values = OrientationType.values(); //Update new orientation.
      setOrientation(values[oStatus]);
