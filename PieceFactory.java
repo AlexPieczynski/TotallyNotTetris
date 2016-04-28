@@ -83,8 +83,8 @@ public class TPiece extends Tetromino{
        {1,1},
        {1,0}},
        
-       {{0,1,0}, //Orientation 4.
-        {1,1,1}}
+      {{0,1,0}, //Orientation 4.
+       {1,1,1}}
         };
     this.setShape(possibleShapes[0]);
   }
@@ -158,11 +158,11 @@ public class SPiece extends Tetromino{
      {{0,1,1}, //Orientation 2.
       {1,1,0}},
      
-      {{1,0}, //Orientation 3.
+     {{1,0}, //Orientation 3.
        {1,1},
        {0,1}},
        
-      {{0,1,1}, //Orientation 4.
+     {{0,1,1}, //Orientation 4.
        {1,1,0}}
         };
     this.setShape(possibleShapes[0]);
@@ -181,12 +181,12 @@ public class ZPiece extends Tetromino{
      {{1,1,0}, //Orientation 2.
       {0,1,1}},
      
-      {{0,1}, //Orientation 3.
-       {1,1},
-       {1,0}},
+     {{0,1}, //Orientation 3.
+      {1,1},
+      {1,0}},
        
-      {{1,1,0}, //Orientation 4.
-       {0,1,1}}
+     {{1,1,0}, //Orientation 4.
+      {0,1,1}}
         };
     this.setShape(possibleShapes[0]);
   }

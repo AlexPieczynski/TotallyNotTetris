@@ -69,14 +69,14 @@ public abstract class Tetromino extends JComponent
  
 //**Methods for rotating the blocks left and right.
   public Tetromino rotateLeft() {
-    if(this.type == PieceType.S){ //If square block, do nothing.
+    if(this.type == PieceType.O){ //If square block, do nothing.
       return this;
     }
     return this;
   }
   
   public Tetromino rotateRight() {
-    if(this.type == PieceType.S){ //If square block, do nothing.
+    if(this.type == PieceType.O){ //If square block, do nothing.
       return this;
     }
     return this;

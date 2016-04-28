@@ -5,12 +5,16 @@ public class TetrisTest extends JFrame{
     TetrisTest test = new TetrisTest();
     test.setVisible(true);
     
+    TetrisBlock block = new TetrisBlock(0,0);
+    
+    /*
     PieceFactory p = new PieceFactory();
-    Tetromino t = p.getPiece("S");
-    t.rotate();
+    Tetromino t = p.getPiece("L");
+    //t.rotate();
+    */
     test.setSize(500,500);
     
-    test.add(t);
-    t.repaint();
+    test.add(block);
+    block.repaint();
   }
 }
