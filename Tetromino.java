@@ -129,7 +129,6 @@ public abstract class Tetromino extends JComponent
      }
      else //For all others, cycle through list of possible values.
        this.oStatus = (this.oStatus+1)%4; 
-     }
      
      setShape(possibleShapes[oStatus]); //Update the new shape. 
      OrientationType[] values = OrientationType.values(); //Update new orientation.
