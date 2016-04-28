@@ -47,13 +47,14 @@ public class GameState
         break;
       default: //error, called with invalid n
         score = -1;
+        System.out.println("ERROR: linesCleared called with param " + n);
         break;
     }
     
+    // increment level every ten lines cleared
+    int temp = linesCleared/10;
     linesCleared += n;
-    
-    // level every 10 lines cleared
-    if (linesCleared%10 == 0)
+    if ( (linesCleared/10) > temp )
       level++;
   }
   
