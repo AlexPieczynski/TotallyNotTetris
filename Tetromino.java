@@ -17,7 +17,7 @@ public abstract class Tetromino extends JComponent
   protected OrientationType orientation;
   protected static final int BLOCK_SIZE = 20;
   
-  protected int xCord = 0;
+  protected int xCord = 200;
   protected int yCord = 0;
   
   //*****FIX ME!!!****
@@ -50,6 +50,14 @@ public abstract class Tetromino extends JComponent
   {
    xCord--;
   }
+  //Return the current X and Y values.
+  public int getXCord(){
+    return xCord;
+  }
+  
+  public int getYCord(){
+    return yCord;
+  }
   
   //called from keyListener for right arrow key
   //move the piece to the right one spot on the grid, if possible
@@ -78,6 +86,11 @@ public abstract class Tetromino extends JComponent
     return shape;
   }
   
+  public void updateLocation(){
+    this.setLayout(null);
+    setLocation(100,0);
+  }
+  
   public void setShape(int[][] shape){ //Set the shape array and dimensions of the Tetromino
     this.shape = shape;
     
@@ -89,7 +102,7 @@ public abstract class Tetromino extends JComponent
   
   public void drawBlock(Graphics g, int row, int col){ //Method to draw a block of a tetromino.
      if (shape[row][col] != 0)
-       g.fillRect(BLOCK_SIZE*col+1,BLOCK_SIZE*row+1,BLOCK_SIZE-2,BLOCK_SIZE-2);
+       g.fillRect(xCord+BLOCK_SIZE*col+1,yCord+BLOCK_SIZE*row+1,BLOCK_SIZE-2,BLOCK_SIZE-2);
   }
    
    public void paintComponent(Graphics g) {//Method to draw each Tetromino
