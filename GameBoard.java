@@ -18,7 +18,7 @@ public class GameBoard extends JPanel {
     private JLabel[][] gameSpace;
     
     GameBoard() {        
-        setSize(winWidth, winHeight);
+        setSize(winWidth, winHeight);        
         count = 0;
         cellSize = winWidth * winHeight / (rows * cols);
         gameSpace = new JLabel[rows][cols];  //Create 2d Container Array
