@@ -1,10 +1,10 @@
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 import java.awt.GridLayout;
-import javax.swing.JLabel;
 
 
 public class GameBoard extends JPanel {
@@ -15,13 +15,12 @@ public class GameBoard extends JPanel {
     private int cellSize;    
     private Timer timer;
     private static int count;
-    private TetraBlock[][] gameSpace;
+    private TetrisBlock[][] gameSpace;    
     
-    GameBoard() {        
-        setSize(winWidth, winHeight);        
+    GameBoard() {             
         count = 0;
         cellSize = winWidth * winHeight / (rows * cols);
-        gameSpace = new TetraBlock[rows][cols];  //Create 2d Container Array
+        gameSpace = new TetrisBlock[rows][cols];  //Create 2d Container Array
         
         //Initialize timer
         timer = new Timer(400, new ActionListener(){
@@ -42,14 +41,15 @@ public class GameBoard extends JPanel {
     
     
     public void resetSpace(){
-        
         int i = 0;
         int j = 0;
+        Dimension d = new Dimension(10, 10);
+        //Dimension d = new Dimension(cellSize, cellSize);
         //Using regular nested loops, not sure how to do the other method for 2d...
         for(j = 0; j<cols; j++){
             for(i = 0; i<rows; i++){
-                gameSpace[i][j] = new TetraBlock(); //usig label as a placeholder, maybe good?
-                //gameSpace[i][j].setText("   x");//text to show grid is populating correctly
+                gameSpace[i][j] = new TetrisBlock();
+                gameSpace[i][j].setBlock(0);               
                 gameSpace[i][j].setFocusable(false);
                 add(gameSpace[i][j]);
             }

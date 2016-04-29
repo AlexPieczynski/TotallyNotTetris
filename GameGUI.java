@@ -1,5 +1,6 @@
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -183,13 +184,23 @@ public class GameGUI extends JFrame implements KeyListener {
         });
         dropBtn.setFocusable(false);    //Don't distract from keyListener
         controlPanel.add(dropBtn);
-        
+        //Add control panel
         container.add(controlPanel, BorderLayout.PAGE_END);
+        
+        //Make filler space
+        Dimension d = new Dimension(70, 600);
+        LFillPanel = new JPanel();
+        LFillPanel.setPreferredSize(d);
+        container.add(LFillPanel, BorderLayout.WEST);
+        RFillPanel = new JPanel();
+        RFillPanel.setPreferredSize(d);
+        container.add(RFillPanel, BorderLayout.EAST);
         
         add(container);
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
         System.out.println("I am " + this.hashCode() + " in the GUI.");
+        pack();
     }
     
     //------------Variables-------------//
@@ -197,6 +208,8 @@ public class GameGUI extends JFrame implements KeyListener {
     private JPanel container;
     private JPanel topPanel;
     private JPanel controlPanel;
+    private JPanel LFillPanel;
+    private JPanel RFillPanel;
     private GameBoard board;
     private JMenuBar menuBar;
     private JMenu fileMenu;
