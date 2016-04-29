@@ -38,9 +38,12 @@ public abstract class Tetromino extends JComponent
   
   //the method called each time the timer hits to drop the piece down one
   //returns false when it hits the ground and can't move down any longer
-  public void moveDown()
+  public boolean moveDown()
   {
+    //TODO: CHECK IF ABLE TO MOVE DOWN, RETURN TRUE IF YES, FALSE IF NO
+    
     yCord--;
+    return true;
   }
   
   //called from keyListener for left arrow key

@@ -9,7 +9,7 @@ public class GameState
   private PieceFactory p;
   private int linesCleared;
   private int level;
-  private Tetromino currentPiece; //reference to currently falling piece?
+  private Tetromino currentPiece;
   private Tetromino nextPiece;
   private Timer timer;
   private int[][] grid = new int[20][10];
@@ -30,9 +30,39 @@ public class GameState
   public void pieceDropped()
   {
     score += 10;
-    //TODO: PUT NEW PIECE AT TOP
+    
+    int c = clearLines();
+    if (c > 0)
+      linesCleared(c);
+    
     currentPiece = nextPiece;
+    //TODO: PUT NEW PIECE AT TOP
     nextPiece = p.getPiece(PieceType.getRandom());
+    //TODO: MAKE GUI DISPLAY NEW PIECE ON DECK
+  }
+  
+  
+  // returns the number of lines that were cleared
+  public int clearLines()
+  {
+    int count = 0;
+    int i,j;
+    //loop through all rows, checking if they can be cleared
+    for (i=0; i < grid.length && count <= 4; i++)
+    {
+      for (j=0; j < grid[0].length; j++)
+      {
+        if (grid[i][j] == 0)
+          break;
+      }
+      
+      if (j == grid[0].length) {//line should be cleared
+        count++;
+        //TODO: BRING EVERY LINE ABOVE DOWN ONE ROW (GRAVITY)
+        //TODO: UPDATE GUI
+      }
+    }    
+    return count;
   }
   
   
@@ -73,7 +103,9 @@ public class GameState
   private class TimeHandler implements ActionListener{
     public void actionPerformed( ActionEvent event )
     {
-      // drop falling piece down
+      if (currentPiece.moveDown() == false){
+        pieceDropped();
+      }
     }
   }
 }
