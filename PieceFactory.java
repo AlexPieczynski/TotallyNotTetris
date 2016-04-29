@@ -1,48 +1,44 @@
 public class PieceFactory{
  
-  public Tetromino getPiece(String piece){
+  public Tetromino getPiece(PieceType piece){
     
     //Base object for a peice.
     Tetromino t;
     
     //Get an I (line) piece.
-    if ( piece.equalsIgnoreCase("I") ){
-      t = new IPiece();
-      return t;
+    switch(piece)
+    {
+      case I:
+        t = new IPiece();
+        return t;
+        
+      case T:
+        t = new TPiece();
+        return t;
+        
+      case O:
+        t = new OPiece();
+        return t;
+        
+      case L:
+        t = new LPiece();
+        return t;
+        
+      case J:
+        t = new JPiece();
+        return t;
+      
+      case S:
+        t = new SPiece();
+        return t;
+        
+      case Z:
+        t = new ZPiece();
+        return t;
+      
+      default:
+        return null;
     }
-    //Get a T piece.
-     if ( piece.equalsIgnoreCase("T") ){
-       t = new TPiece();
-      return t;
-    }
-     //Get an O (square) piece.
-     if ( piece.equalsIgnoreCase("O") ){
-       t = new OPiece();
-      return t;
-    }
-     //Get an L piece.
-     if ( piece.equalsIgnoreCase("L") ){
-      t = new LPiece();
-      return t;
-    }
-     //Get a J piece.
-     if ( piece.equalsIgnoreCase("J") ){
-      t = new JPiece();
-      return t;
-    }
-     //Get an S piece.
-     if ( piece.equalsIgnoreCase("S") ){
-      t = new SPiece();
-      return t;
-    }
-    //Get a Z piece.
-     if ( piece.equalsIgnoreCase("Z") ){
-       t = new ZPiece();
-      return t;
-     }
-     
-     //If made it all the way here, did not specify valid type so return NULL.
-     return null;
   }
 
   

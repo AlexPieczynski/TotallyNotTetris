@@ -5,7 +5,7 @@ public class TetrisTest extends JFrame{
     TetrisTest test = new TetrisTest();
     test.setVisible(true);
     
-    TetrisBlock block = new TetrisBlock(0,0);
+    TetrisBlock block = new TetrisBlock();
     
     /*
     PieceFactory p = new PieceFactory();

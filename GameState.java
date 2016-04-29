@@ -6,19 +6,22 @@ import java.awt.event.ActionListener;
 public class GameState
 {
   private int score;
+  private PieceFactory p;
   private int linesCleared;
   private int level;
   private Tetromino currentPiece; //reference to currently falling piece?
-  private PieceType nextPiece;
+  private Tetromino nextPiece;
   private Timer timer;
   private int[][] grid = new int[20][10];
   
   public GameState()
   {
+    p = new PieceFactory();
     score = 0;
     linesCleared = 0;
     level = 1;
-    nextPiece = PieceType.NULL; //use PieceFactroy class
+    currentPiece = p.getPiece(PieceType.getRandom());
+    nextPiece = p.getPiece(PieceType.getRandom());
     timer = new Timer(800, new TimeHandler());
     timer.start();
   }
@@ -27,7 +30,9 @@ public class GameState
   public void pieceDropped()
   {
     score += 10;
-    nextPiece = PieceType.NULL; //use PieceFactory class
+    //TODO: PUT NEW PIECE AT TOP
+    currentPiece = nextPiece;
+    nextPiece = p.getPiece(PieceType.getRandom());
   }
   
   
