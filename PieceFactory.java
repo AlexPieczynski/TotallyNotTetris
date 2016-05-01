@@ -75,7 +75,7 @@ public class IPiece extends Tetromino{
       {0,0,0,0}}
       }; //Set array for I shape.
             
-    this.setShape(possibleShapes[0]);
+    this.setShape(possibleShapes[0].clone());
     this.blockColor = 1;
   }
   
@@ -107,7 +107,7 @@ public class TPiece extends Tetromino{
       {0,0,1,0},
       {0,0,0,0}}
       }; //Set array for T shape.
-    this.setShape(possibleShapes[0]);
+    this.setShape(possibleShapes[0].clone());
     this.blockColor = 2;
   }
 }
@@ -152,7 +152,7 @@ public class LPiece extends Tetromino{
       {0,0,1,0},
       {0,0,0,0}}
       }; //Set array for L shape.
-    this.setShape(possibleShapes[0]);
+    this.setShape(possibleShapes[0].clone());
     this.blockColor = 4;
   }
 }
@@ -182,7 +182,7 @@ public class JPiece extends Tetromino{
       {0,1,1,0},
       {0,0,0,0}}
       }; //Set array for J shape.
-    this.setShape(possibleShapes[0]);
+    this.setShape(possibleShapes[0].clone());
     this.blockColor = 5;
   }
 }
@@ -211,7 +211,7 @@ public class SPiece extends Tetromino{
       {0,0,0,1},
       {0,0,0,0}}
       }; //Set array for S shape.
-    this.setShape(possibleShapes[0]);
+    this.setShape(possibleShapes[0].clone());
     this.blockColor = 6;
   }
 }
@@ -241,7 +241,7 @@ public class ZPiece extends Tetromino{
       {0,0,1,0},
       {0,0,0,0}}
       }; //Set array for Z shape.
-    this.setShape(possibleShapes[0]);
+    this.setShape(possibleShapes[0].clone());
     this.blockColor = 7;
   }
 }
