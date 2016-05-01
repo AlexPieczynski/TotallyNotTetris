@@ -12,7 +12,7 @@ public class GameState
   private Tetromino currentPiece;
   private Tetromino nextPiece;
   private Timer timer;
-  private int[][] grid = new int[20][10];
+  public int[][] grid = new int[20][10];
   private GameGUI gui;
   
   public GameState()
@@ -44,16 +44,19 @@ public class GameState
     //TODO: PUT NEW PIECE AT TOP
     nextPiece = p.getPiece(PieceType.getRandom());
     //TODO: MAKE GUI DISPLAY NEW PIECE ON DECK
+    //TODO: UPDATE GUI SCORE
   }
   
   
+  // checks if any lines need to be cleared
+  // clears lines and implements naive gravity
   // returns the number of lines that were cleared
   public int clearLines()
   {
     int count = 0;
     int i,j;
     //loop through all rows, checking if they can be cleared
-    for (i=0; i < grid.length && count <= 4; i++)
+    for (i=0; i < grid.length && count < 4; i++)
     {
       for (j=0; j < grid[0].length; j++)
       {
@@ -76,6 +79,8 @@ public class GameState
   }
   
   
+  // update score after lines have been cleared
+  // update level if we have cleared some multiple of 10 lines
   public void linesCleared(int n)
   {    
     //update score based on n
@@ -113,9 +118,61 @@ public class GameState
   private class TimeHandler implements ActionListener{
     public void actionPerformed( ActionEvent event )
     {
+      // move piece down one,
+      //   unless piece can't move down
       if (currentPiece.moveDown() == false){
         pieceDropped();
       }
     }
+  }
+  
+  
+  // prints ascii representation of grid for debugging
+  public void printGrid()
+  {
+    System.out.println("-------------------");
+    for (int i= grid.length-1 ; i >= 0; i--) {
+      for (int j=0; j < grid[i].length; j++) {
+        System.out.print(grid[i][j] + " ");
+      }
+      System.out.println();
+    }
+    System.out.println("-------------------");
+  }
+  
+  
+  
+  // TEST CODE
+  public static void main(String[] args)
+  {
+    GameState gs = new GameState();
+    int[][] grid = gs.grid;   
+    
+    // fill grid, except top row
+    for (int i=0; i < grid.length-1; i++) {
+      for (int j=0; j < grid[0].length; j++) {
+        grid[i][j] = 1;
+      }
+    }
+    
+    gs.printGrid();
+    gs.clearLines();
+    gs.printGrid();
+    
+    // fill grid, different pattern
+    for (int i=0; i < grid.length-1; i++) {
+      for (int j=0; j < grid[0].length; j++) {
+        grid[i][j] = 0;
+      }
+    }
+    for (int i=0; i < grid.length-1; i++) {
+      for (int j=0; j < 5; j++) {
+        grid[i][j] = 1;
+      }
+    }
+    
+    gs.printGrid();
+    gs.clearLines();
+    gs.printGrid();
   }
 }
