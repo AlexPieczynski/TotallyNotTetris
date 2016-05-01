@@ -1,22 +1,21 @@
 import javax.swing.*;
-public class TetrisTest extends JFrame{
+public class TetrisTest{
   
   public static void main (String[] args){
-    TetrisTest test = new TetrisTest();
-    test.setVisible(true);
     
-    TetrisBlock block = new TetrisBlock();
-    
-    /*
+    GameGUI gui = GameGUI.getInstance();
     PieceFactory p = new PieceFactory();
-    Tetromino t = p.getPiece("L");
-    t.rotate();
-=======
-    //t.rotate();
-    */
-    test.setSize(500,500);
+    Tetromino t1, t2;
     
-    test.add(block);
-    block.repaint();
+    t1 = p.getPiece( PieceType.S);
+    
+    t2 = p.getPiece(PieceType.Z);
+    t2.setYCord(2);
+    
+    t1.rotateLeft();
+    
+    t1.drawPiece();
+    t2.drawPiece();
+    
   }
 }

@@ -13,9 +13,11 @@ public class GameState
   private Tetromino nextPiece;
   private Timer timer;
   private int[][] grid = new int[20][10];
+  private GameGUI gui;
   
   public GameState()
   {
+    gui = GameGUI.getInstance();
     p = new PieceFactory();
     score = 0;
     linesCleared = 0;

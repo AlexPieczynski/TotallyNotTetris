@@ -1,10 +1,16 @@
+//A class to implement our Factory design pattern for the Tetris pieces.
+//Each call to getPiece will get a randomly generated piece.
+
 public class PieceFactory{
- 
+  
+  GameGUI gui = GameGUI.getInstance();
+  
+  
   public Tetromino getPiece(PieceType piece){
     
     //Base object for a peice.
     Tetromino t;
-    
+
     //Get an I (line) piece.
     switch(piece)
     {
@@ -48,16 +54,29 @@ public class IPiece extends Tetromino{
     super(PieceType.I);
     //Create array of all possible shapes for this tetromino.
     possibleShapes = new int[][][]{
-      {{1,1,1,1}},   //Orientation 1.
+     {{0,0,1,0}, //Orientation 1
+      {0,0,1,0},
+      {0,0,1,0},
+      {0,0,1,0}},
         
-      {{1},{1},{1},{1}}, //Orientation 2.
-      
-      {{1,1,1,1}},  //Orientation 1.
-      
-      {{1},{1},{1},{1}} //Orientation 2.
+     {{0,0,0,0}, //Orientation 2
+      {0,0,0,0},
+      {1,1,1,1},
+      {0,0,0,0}},
+        
+     {{0,0,1,0}, //Orientation 3
+      {0,0,1,0},
+      {0,0,1,0},
+      {0,0,1,0}},
+        
+     {{0,0,0,0}, //Orientation 4
+      {0,0,0,0},
+      {1,1,1,1},
+      {0,0,0,0}}
       }; //Set array for I shape.
             
     this.setShape(possibleShapes[0]);
+    this.blockColor = 1;
   }
   
 }
@@ -68,21 +87,28 @@ public class TPiece extends Tetromino{
     super(PieceType.T);
     //Create array of all possible shapes for this tetromino.
     possibleShapes = new int[][][]{
-     {{0,1}, //Orientation 1.
-      {1,1},
-      {0,1}},
-     
-     {{1,1,1}, //Orientation 2.
-      {0,1,0}},
-     
-      {{1,0}, //Orientation 3.
-       {1,1},
-       {1,0}},
-       
-      {{0,1,0}, //Orientation 4.
-       {1,1,1}}
-        };
+     {{0,0,0,0}, //Orientation 1
+      {0,1,1,1},
+      {0,0,1,0},
+      {0,0,0,0}},
+        
+     {{0,0,1,0}, //Orientation 2
+      {0,0,1,1},
+      {0,0,1,0},
+      {0,0,0,0}},
+        
+     {{0,0,1,0}, //Orientation 3
+      {0,1,1,1},
+      {0,0,0,0},
+      {0,0,0,0}},
+        
+     {{0,0,1,0}, //Orientation 4
+      {0,1,1,0},
+      {0,0,1,0},
+      {0,0,0,0}}
+      }; //Set array for T shape.
     this.setShape(possibleShapes[0]);
+    this.blockColor = 2;
   }
 }
 
@@ -91,9 +117,13 @@ public class OPiece extends Tetromino{
     super(PieceType.O);
     //Create array of all possible shapes for this tetromino.
     int[][] shape = new int[][]{
-      {1,1},
-      {1,1}}; //Set array for O shape.
+      {0,0,0,0}, //Orientation 1
+      {0,1,1,0},
+      {0,1,1,0},
+      {0,0,0,0}
+      }; //Set array for O shape.
     this.setShape(shape);
+    this.blockColor = 3;
   }
 }
 
@@ -102,21 +132,28 @@ public class LPiece extends Tetromino{
     super(PieceType.L);
     //Create array of all possible shapes for this tetromino.
     possibleShapes = new int[][][]{
-     {{1,0}, //Orientation 1.
-      {1,0},
-      {1,1}},
-     
-     {{0,0,1}, //Orientation 2.
-      {1,1,1}},
-     
-      {{1,1}, //Orientation 3.
-       {0,1},
-       {0,1}},
-       
-      {{1,1,1}, //Orientation 4.
-       {1,0,0}}
-        };
+     {{0,0,0,0}, //Orientation 1
+      {0,1,1,1},
+      {0,1,0,0},
+      {0,0,0,0}},
+        
+     {{0,0,1,0}, //Orientation 2
+      {0,0,1,0},
+      {0,0,1,1},
+      {0,0,0,0}},
+        
+     {{0,0,0,1}, //Orientation 3
+      {0,1,1,1},
+      {0,0,0,0},
+      {0,0,0,0}},
+        
+     {{0,1,1,0}, //Orientation 4
+      {0,0,1,0},
+      {0,0,1,0},
+      {0,0,0,0}}
+      }; //Set array for L shape.
     this.setShape(possibleShapes[0]);
+    this.blockColor = 4;
   }
 }
 
@@ -125,21 +162,28 @@ public class JPiece extends Tetromino{
     super(PieceType.J);
     //Create array of all possible shapes for this tetromino.
     possibleShapes = new int[][][]{
-     {{0,1}, //Orientation 1.
-      {0,1},
-      {1,1}},
-     
-     {{1,1,1}, //Orientation 2.
-      {0,0,1}},
-     
-      {{1,1}, //Orientation 3.
-       {1,0},
-       {1,0}},
-       
-      {{1,0,0}, //Orientation 4.
-       {1,1,1}}
-        };
+     {{0,0,0,0}, //Orientation 1
+      {0,1,1,1},
+      {0,0,0,1},
+      {0,0,0,0}},
+        
+     {{0,0,1,1}, //Orientation 2
+      {0,0,1,0},
+      {0,0,1,0},
+      {0,0,0,0}},
+        
+     {{0,1,0,0}, //Orientation 3
+      {0,1,1,1},
+      {0,0,0,0},
+      {0,0,0,0}},
+        
+     {{0,0,1,0}, //Orientation 4
+      {0,0,1,0},
+      {0,1,1,0},
+      {0,0,0,0}}
+      }; //Set array for J shape.
     this.setShape(possibleShapes[0]);
+    this.blockColor = 5;
   }
 }
 public class SPiece extends Tetromino{
@@ -147,21 +191,28 @@ public class SPiece extends Tetromino{
     super(PieceType.S);
      //Create array of all possible shapes for this tetromino.
     possibleShapes = new int[][][]{
-     {{1,0}, //Orientation 1.
-      {1,1},
-      {0,1}},
-     
-     {{0,1,1}, //Orientation 2.
-      {1,1,0}},
-     
-     {{1,0}, //Orientation 3.
-       {1,1},
-       {0,1}},
-       
-     {{0,1,1}, //Orientation 4.
-       {1,1,0}}
-        };
+     {{0,0,0,0}, //Orientation 1
+      {0,0,1,1},
+      {0,1,1,0},
+      {0,0,0,0}},
+        
+     {{0,0,1,0}, //Orientation 2
+      {0,0,1,1},
+      {0,0,0,1},
+      {0,0,0,0}},
+        
+     {{0,0,0,0}, //Orientation 3
+      {0,0,1,1},
+      {0,1,1,0},
+      {0,0,0,0}},
+        
+     {{0,0,1,0}, //Orientation 4
+      {0,0,1,1},
+      {0,0,0,1},
+      {0,0,0,0}}
+      }; //Set array for S shape.
     this.setShape(possibleShapes[0]);
+    this.blockColor = 6;
   }
 }
 
@@ -170,21 +221,28 @@ public class ZPiece extends Tetromino{
     super(PieceType.Z);
     //Create array of all possible shapes for this tetromino.
     possibleShapes = new int[][][]{
-     {{0,1}, //Orientation 1.
-      {1,1},
-      {1,0}},
-     
-     {{1,1,0}, //Orientation 2.
-      {0,1,1}},
-     
-     {{0,1}, //Orientation 3.
-      {1,1},
-      {1,0}},
-       
-     {{1,1,0}, //Orientation 4.
-      {0,1,1}}
-        };
+     {{0,0,0,0}, //Orientation 1
+      {0,1,1,0},
+      {0,0,1,1},
+      {0,0,0,0}},
+        
+     {{0,0,0,1}, //Orientation 2
+      {0,0,1,1},
+      {0,0,1,0},
+      {0,0,0,0}},
+        
+     {{0,0,0,0}, //Orientation 3
+      {0,1,1,0},
+      {0,0,1,1},
+      {0,0,0,0}},
+        
+     {{0,0,0,1}, //Orientation 4
+      {0,0,1,1},
+      {0,0,1,0},
+      {0,0,0,0}}
+      }; //Set array for Z shape.
     this.setShape(possibleShapes[0]);
+    this.blockColor = 7;
   }
 }
 

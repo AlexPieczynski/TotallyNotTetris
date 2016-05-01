@@ -46,8 +46,8 @@ public class GameBoard extends JPanel {
         Dimension d = new Dimension(10, 10);
         //Dimension d = new Dimension(cellSize, cellSize);
         //Using regular nested loops, not sure how to do the other method for 2d...
-        for(j = 0; j<cols; j++){
-            for(i = 0; i<rows; i++){
+         for(i = 0; i<rows; i++){
+            for(j = 0; j<cols; j++){
                 gameSpace[i][j] = new TetrisBlock();
                 gameSpace[i][j].setBlock(0);               
                 gameSpace[i][j].setFocusable(false);
@@ -56,4 +56,8 @@ public class GameBoard extends JPanel {
         }
     }
     
+    //Method to get the array representing the Tetris grid logic.
+    public TetrisBlock[][] getGameSpace(){
+      return gameSpace;
+    }
 }

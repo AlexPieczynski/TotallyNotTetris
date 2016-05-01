@@ -41,6 +41,9 @@ public class GameGUI extends JFrame implements KeyListener {
         return INSTANCE;
     }
     
+    public GameBoard getBoard(){
+      return board;
+    }
     
     public void start(){
         //Create instance of GameState

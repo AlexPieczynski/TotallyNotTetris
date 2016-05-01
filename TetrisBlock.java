@@ -2,7 +2,7 @@
 import javax.swing.*;
 
 public class TetrisBlock extends JLabel{
-    int color; //corresponds to a color
+    private int color; //corresponds to a color
     // Pre-load images (assuming they are in directory) so that we don't have to
     // keep accessing from the hard disk, instead of memory
     private final ImageIcon[] icons = {new ImageIcon("button_white.gif"), new ImageIcon("button_yellow.gif"), 
@@ -20,6 +20,10 @@ public class TetrisBlock extends JLabel{
   public void setBlock(int i){
       color = i;
       this.setIcon(icons[this.color]);
+  }
+  
+  public int getColor(){
+    return color;
   }
   
 }
