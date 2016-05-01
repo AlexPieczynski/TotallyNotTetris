@@ -33,7 +33,10 @@ public class GameState
   {
     score += 10;
     
+    // check for lines that need to be cleared
     int c = clearLines();
+    
+    // update score if lines were cleared
     if (c > 0)
       linesCleared(c);
     
@@ -60,7 +63,12 @@ public class GameState
       
       if (j == grid[0].length) {//line should be cleared
         count++;
-        //TODO: BRING EVERY LINE ABOVE DOWN ONE ROW (GRAVITY)
+        // implement gravity
+        for (j=i; j < grid.length-1; j++) {
+          for (int k=0; k < grid[0].length; k++)
+            grid[j][k] = grid[j+1][k];
+        }
+        i--;
         //TODO: UPDATE GUI
       }
     }    
