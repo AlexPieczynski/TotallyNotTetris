@@ -2,6 +2,7 @@
 import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JOptionPane;
 
 public class GameState
 {
@@ -44,6 +45,8 @@ public class GameState
     //TODO: PUT NEW PIECE AT TOP
     nextPiece = p.getPiece(PieceType.getRandom());
     //TODO: MAKE GUI DISPLAY NEW PIECE ON DECK
+    if (false) //TODO: CHECK IF PIECE CAN BE PLACED AT TOP
+      gameLost();
     //TODO: UPDATE GUI SCORE
   }
   
@@ -72,7 +75,6 @@ public class GameState
             grid[j][k] = grid[j+1][k];
         }
         i--;
-        //TODO: UPDATE GUI
       }
     }    
     return count;
@@ -127,6 +129,29 @@ public class GameState
   }
   
   
+  // called when the game has been lost
+  // ends play
+  public void gameLost()
+  {
+    timer.stop();
+    JOptionPane.showMessageDialog(null, "Game Over.\nPlease Try Again.",
+                                  "GAME OVER", JOptionPane.PLAIN_MESSAGE);
+    
+  }
+  
+  
+  // update GUI with grid
+  public void updateGUI()
+  {
+    TetrisBlock[][] guiGrid = gui.getBoard().getGameSpace();
+    for (int i=0; i < grid.length; i++) {
+      for (int j=0; j < grid[i].length; j++) {
+        guiGrid[i][j].setBlock(grid[i][j]);
+      }
+    }
+  }
+  
+  
   // prints ascii representation of grid for debugging
   public void printGrid()
   {
@@ -146,7 +171,7 @@ public class GameState
   public static void main(String[] args)
   {
     GameState gs = new GameState();
-    int[][] grid = gs.grid;   
+    int[][] grid = gs.grid;  
     
     // fill grid, except top row
     for (int i=0; i < grid.length-1; i++) {
