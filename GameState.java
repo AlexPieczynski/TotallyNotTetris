@@ -42,12 +42,12 @@ public class GameState
   
   
   public void rotateLeft(){
-      
+      currentPiece.rotateLeft();
   }
   
   
   public void rotateRight(){
-      
+      currentPiece.rotateRight();
   }
   
   // called when a piece reaches the bottom of it's fall
@@ -76,6 +76,7 @@ public class GameState
     // set up next piece on deck
     nextPiece = p.getPiece(PieceType.getRandom());
     //TODO: MAKE GUI DISPLAY NEW PIECE ON DECK
+    
     //TODO: UPDATE GUI SCORE
   }
   

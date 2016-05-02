@@ -77,13 +77,13 @@ public class GameGUI extends JFrame implements KeyListener {
                 game.moveRight();
                 break;
             case VK_Z:
-                System.out.println("rotate ccw");
+                game.rotateLeft();
                 break;    
             case VK_X:
-                System.out.println("rotate cw");
+                game.rotateRight();
                 break;    
             case VK_SPACE:
-                System.out.println("DROP IT!!!!");
+                game.pieceDropped();
                 break;   
             default:    //Nevermind this
                 break;
@@ -156,7 +156,7 @@ public class GameGUI extends JFrame implements KeyListener {
         moveLBtn.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                //THE METHOD WE WANT
+                game.moveLeft();
             }
         });
         moveLBtn.setFocusable(false);    //Don't distract from keyListener
@@ -168,7 +168,7 @@ public class GameGUI extends JFrame implements KeyListener {
         moveRBtn.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                //THE METHOD WE WANT
+                game.moveRight();
             }
         });
         moveRBtn.setFocusable(false);    //Don't distract from keyListener
@@ -227,11 +227,7 @@ public class GameGUI extends JFrame implements KeyListener {
         
         container.add(RFillPanel, BorderLayout.EAST);
         
-        
-        
         add(container);
-        
-      
         
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
