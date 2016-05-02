@@ -15,7 +15,7 @@ public abstract class Tetromino
   protected GameGUI gui;
   protected GameBoard gb;
   protected TetrisBlock[][] blocks;
-  protected int[][] logicGrid;
+  protected static int[][] logicGrid =  new int[20][10];
   
   protected final int ROW_MAX = 20; //Max height of the grid in Tetris blocks.
   protected final int COL_MIN = 0;
@@ -41,7 +41,6 @@ public abstract class Tetromino
     this.gui = GameGUI.getInstance();
     this.gb = gui.getBoard();
     this.blocks = gb.getGameSpace();
-    this.logicGrid = this.setLogicGrid();
   }
   
   //Method to get coordinates of each Tetromino block.
@@ -113,6 +112,42 @@ public abstract class Tetromino
     }
   }
   
+  //**Methods for rotating the blocks left and right.
+  public void rotateLeft() {
+    if(this.type == PieceType.O){ //If square block, do nothing.
+      return;
+    }
+    if(canRotateLeft()){
+      
+     this.erasePiece();
+     this.eraseFromLogic();
+     
+     rotate(); //The default rotation is left so simply do one rotation.
+     
+     this.updatePositions();
+     this.drawPiece();
+     this.drawToLogic();
+    }
+  }
+  
+  public void rotateRight() {
+    if(this.type == PieceType.O){ //If square block, do nothing.
+      return;
+    }//For all other blocks rotate 3 times (3 left rotations == 1 right rotation).
+    if(canRotateRight()){
+      
+      this.erasePiece();
+      this.eraseFromLogic();
+      
+      for(int i = 0; i < 3; i++){ rotate();}
+      
+      this.updatePositions();
+      this.drawPiece();
+      this.drawToLogic();
+    }
+  }
+  
+  
   //Return the current X and Y values.
   public int getXCord(){
     return xCord;
@@ -148,49 +183,11 @@ public abstract class Tetromino
     return temp;
   }
   
-  public int[][] setLogicGrid(){
-    int[][] tempGrid = new int[ROW_MAX][COL_MAX];
+  public void setLogicGrid(){
     
     for(int i = 0; i < 20; i++)
       for(int j = 0; j < 10; j++)
-       tempGrid[i][j] = blocks[i][j].getColor();
-    
-    return tempGrid;
-  }
-  
- 
-//**Methods for rotating the blocks left and right.
-  public void rotateLeft() {
-    if(this.type == PieceType.O){ //If square block, do nothing.
-      return;
-    }
-    if(canRotateLeft()){
-      
-     this.erasePiece();
-     this.eraseFromLogic();
-     
-     rotate(); //The default rotation is left so simply do one rotation.
-     
-     this.updatePositions();
-     this.drawPiece();
-     this.drawToLogic();
-    }
-  }
-  
-  public void rotateRight() {
-    if(this.type == PieceType.O){ //If square block, do nothing.
-      return;
-    }//For all other blocks rotate 3 times (3 left rotations == 1 right rotation).
-    if(canRotateRight()){
-      this.erasePiece();
-      this.eraseFromLogic();
-      
-      for(int i = 0; i < 3; i++){ rotate();}
-      
-      this.updatePositions();
-      this.drawPiece();
-      this.drawToLogic();
-    }
+       logicGrid[i][j] = blocks[i][j].getColor();
   }
   
   public int[][] getShape(){//Return the array that holds the shape coordinates.
@@ -311,17 +308,19 @@ public abstract class Tetromino
     
     int bottom = lowestRow();
     
-    if(bottom + yCord + 1 > 19){ //Already at bottom of grid.
+    if(bottom + yCord + 1 > 19){ //Already at bottom of grid so return.
       return false;
     }
     
     this.eraseFromLogic(); //Remove the piece from logic grid to avoid accidental collision detection
     
+    
     for (Pair p : this.getPositions()){
       
       if(logicGrid[p.getY() + 1][p.getX()] != 0) { //Check for collisions at one space down.
         
-        this.drawToLogic(); //Found a collision so return false.
+        this.drawToLogic(); //Found a collision so return false. Redraw the old position before exiting.
+        System.out.println("Error: cannot move down further");
         return false;
       }
     }
@@ -383,7 +382,7 @@ public abstract class Tetromino
     for (Pair p : this.getPositions()){
       blocks[p.getY()][p.getX()].setBlock(blockColor);
     }
-    
+    setLogicGrid();
     drawToLogic(); //Copy to the logic array.
   }
   
@@ -392,13 +391,11 @@ public abstract class Tetromino
     for (Pair p : this.getPositions()){
       blocks[p.getY()][p.getX()].setBlock(0);
     }
-    
-    positions.clear(); //Erase all positions from vector.
   }
   
   public void drawToLogic(){
     for (Pair p : this.getPositions()){   //Update the logic grid. Used for collision detection.
-      logicGrid[p.getY()][p.getX()]= blockColor;
+      logicGrid[p.getY()][p.getX()] = blockColor;
     }
   }
   
@@ -408,7 +405,7 @@ public abstract class Tetromino
     }
   }
   
-  private void printLogicGrid(){ //Used for testing.
+  public void printLogicGrid(){ //Used for testing.
     System.out.println(" - - - - - - - - - - ");
      for(int i = 0; i < 20; i++){
       for(int j = 0; j < 10; j++){
@@ -418,18 +415,29 @@ public abstract class Tetromino
     }
      System.out.println(" - - - - - - - - - - ");
   }
-   
-   private void rotate(){ //Helper method to rotate the piece. Performs 1 left rotation.
-     
-     if(this.type == PieceType.O){ //If square piece, do nothing.
-       return;
+  
+  public void printPositions(){ //Helper method for testing.
+    if(getPositions().size() == 0){
+      System.out.println("Positions is empty.");}
+    else{
+     for (Pair p : this.getPositions()){   //Print current positions.
+      System.out.print(" x: "+ p.getX() +" y: " + p.getY());
      }
-     else //For all others, cycle through list of possible values.
-       this.oStatus = (this.oStatus+1)%4; 
-     
-     setShape(possibleShapes[oStatus]); //Update the new shape. 
-     OrientationType[] values = OrientationType.values(); //Update new orientation.
-     setOrientation(values[oStatus]);
-   }
+     System.out.println();
+    }
+  }
+  
+  private void rotate(){ //Helper method to rotate the piece. Performs 1 left rotation.
+    
+    if(this.type == PieceType.O){ //If square piece, do nothing.
+       return;
+    }
+    else //For all others, cycle through list of possible values.
+      this.oStatus = (this.oStatus+1)%4;
+    
+    setShape(possibleShapes[oStatus]); //Update the new shape. 
+    OrientationType[] values = OrientationType.values(); //Update new orientation.
+    setOrientation(values[oStatus]);
+  }
    
 }

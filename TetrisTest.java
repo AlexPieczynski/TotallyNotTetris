@@ -10,10 +10,17 @@ public class TetrisTest{
     GameBoard gb = gui.getBoard();
     PieceFactory p = new PieceFactory();
     
-    Tetromino t = p.getPiece(PieceType.L);
+    Tetromino t1 = p.getPiece(PieceType.L);
+    Tetromino t2 = p.getPiece(PieceType.J);
+     
+    t1.drawPiece();
+    t1.rotateRight();
+    t1.moveDown();
+    t1.moveDown();
     
-    t.drawPiece();
-    t.rotateRight();
-    
+    t2.drawPiece();
+    t2.moveDown();
+    t2.rotateLeft();
+    t2.printLogicGrid();
   }
 }
