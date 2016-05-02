@@ -14,6 +14,7 @@ public abstract class Tetromino
   
   protected GameGUI gui;
   protected GameBoard gb;
+  protected TetrisBlock[][] onDeckBlocks;
   protected TetrisBlock[][] blocks;
   protected static int[][] logicGrid =  new int[20][10];
   
@@ -41,6 +42,7 @@ public abstract class Tetromino
     this.gui = GameGUI.getInstance();
     this.gb = gui.getBoard();
     this.blocks = gb.getGameSpace();
+    this.onDeckBlocks = gui.getOnDeck().getOnDeckSpace();
   }
   
   //Method to get coordinates of each Tetromino block.
@@ -386,6 +388,17 @@ public abstract class Tetromino
     }
     setLogicGrid();
     drawToLogic(); //Copy to the logic array.
+  }
+  
+  public void drawOnDeck(){ //Draw a Tetromino to "On Deck" space.
+    for(int i = 0; i <4; i++){
+      for(int j = 0; j < 4; j++){
+        if(shape[i][j] != 0)
+          onDeckBlocks[i][j].setBlock(blockColor);
+        else
+          onDeckBlocks[i][j].setBlock(0);
+      }
+    }
   }
   
   public void erasePiece(){ //A helper method for removing each piece from grid.

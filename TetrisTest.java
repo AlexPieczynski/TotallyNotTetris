@@ -11,16 +11,10 @@ public class TetrisTest{
     PieceFactory p = new PieceFactory();
     
     Tetromino t1 = p.getPiece(PieceType.L);
-    Tetromino t2 = p.getPiece(PieceType.J);
+    Tetromino t2 = p.getPiece(PieceType.Z);
      
     t1.drawPiece();
-    t1.moveDown();
-    t1.moveDown();
-    t1.rotateLeft();
-   
-    t2.drawPiece();
-    t2.moveDown();
-    t2.rotateLeft();
-    t1.printLogicGrid();
+    t2.drawOnDeck();
+    
   }
 }
