@@ -14,6 +14,7 @@ public abstract class Tetromino
   protected GameGUI gui;
   protected GameBoard gb;
   protected TetrisBlock[][] blocks;
+  protected TetrisBlock[][] blocksCopy;
   
   protected final int ROW_MAX = 20; //Max height of the grid in Tetris blocks.
   protected final int COL_MIN = 0;
@@ -39,6 +40,7 @@ public abstract class Tetromino
     this.gui = GameGUI.getInstance();
     this.gb = gui.getBoard();
     this.blocks = gb.getGameSpace();
+    this.blocksCopy = blocks.clone();
   }
   
   //Method to change the orientation  of a piece.
@@ -52,8 +54,12 @@ public abstract class Tetromino
 
     if(canMoveDown()){
       this.erasePiece();
+      this.erasePieceCopy();
+      
       yCord++;
+      
       this.drawPiece();
+      this.drawPieceCopy();
       
       return true;
     }
@@ -68,8 +74,12 @@ public abstract class Tetromino
     
     if(canMoveLeft()){
       this.erasePiece();
+      this.erasePieceCopy();
+      
       xCord--;
+      
       this.drawPiece();
+      this.drawPieceCopy();
     }
   }
   
@@ -80,8 +90,12 @@ public abstract class Tetromino
 
     if(canMoveRight()) {
       this.erasePiece();
+      this.erasePieceCopy();
+      
       xCord++;
+      
       this.drawPiece();
+      this.drawPieceCopy();
     }
   }
   
@@ -135,8 +149,12 @@ public abstract class Tetromino
     }//For all other blocks rotate 3 times (3 left rotations == 1 right rotation).
     if(canRotateRight()){
       this.erasePiece();
+      this.erasePieceCopy();
+      
       for(int i = 0; i < 3; i++){ rotate();}
+      
       this.drawPiece();
+      this.drawPieceCopy();
     }
   }
   
@@ -154,14 +172,14 @@ public abstract class Tetromino
     Tetromino temp = this.clonePiece(); //Clone the piece to avoid modifying original piece.
     temp.rotate(); //First try a left rotation.
     int [][] tempShape = temp.getShape();
-    this.erasePiece();
+    this.erasePieceCopy();
     
     for (int row = 0; row < 4; row++){
       for (int col = 0; col < 4; col++){
         if(tempShape[row][col] != 0 && blocks[row + yCord][col + xCord].getColor() != 0){
         //Not allowed to rotate, so return false. //Print statement for testing purposes.
           System.out.println("Error trying to rotate left: not a valid move!");
-          this.drawPiece();
+          this.drawPieceCopy();
           return false;
         }
       }
@@ -174,14 +192,15 @@ public abstract class Tetromino
     Tetromino temp = this.clonePiece(); //Clone the piece to avoid modifying original piece.
     for(int i = 0; i < 3; i++){ temp.rotate();} //First try a right rotation.
     int [][] tempShape = temp.getShape();
-    this.erasePiece();
+    this.erasePieceCopy();
     
+    this.erasePiece();
     for (int row = 0; row < 4; row++){
       for (int col = 0; col < 4; col++){
         if(tempShape[row][col] != 0 && blocks[row + yCord][col + xCord].getColor() != 0){
           ////Not allowed to rotate, so return false. Print statement for testing purposes.
           System.out.println("Error trying to rotate right: not a valid move!");
-          this.drawPiece();
+          this.drawPieceCopy();
           return false;
         }
       }
@@ -199,11 +218,13 @@ public abstract class Tetromino
     
     if(leftSide + xCord - 1 < 0){ //Already at left limit of screen.
         return false;}
-    
+   
+    this.erasePieceCopy();
     for (int row = 0; row < 4; row++){
       for (int col = 0; col < 4; col++){
         
         if(tempShape[row][col] != 0 && blocks[row + yCord][col + xCord - 1].getColor() != 0){
+          this.drawPieceCopy();
           return false;
         }
       }
@@ -221,11 +242,12 @@ public abstract class Tetromino
     
     if(rightSide + xCord + 1 > 9){ //Already at right limit of screen.
         return false;}
-    
+    this.erasePieceCopy();
     for (int row = 0; row < 4; row++){
       for (int col = 0; col < 4; col++){
         
         if(tempShape[row][col] != 0 && blocks[row + yCord][col + xCord + 1].getColor() != 0){
+          this.drawPieceCopy();
           return false;
         }
       }
@@ -240,13 +262,17 @@ public abstract class Tetromino
     
     int bottom = lowestRow();
     
+    System.out.println("bottom: " + bottom + " yCord: " + yCord);
+    
     if(bottom + yCord + 1 > 19){ //Already at bottom of grid.
       return false;}
     
+    this.erasePieceCopy();
     for (int row = 0; row < 4; row++){
       for (int col = 0; col < 4; col++){
         
         if(tempShape[row][col] != 0 && blocks[row + yCord + 1][col + xCord].getColor() != 0){
+          this.drawPieceCopy();
           return false;
         }
       }
@@ -313,6 +339,7 @@ public abstract class Tetromino
         }
       }
     }
+    this.drawPieceCopy();//Also draws a current shape.
   }
   
   public void erasePiece(){ //A helper method for removing each piece.
@@ -321,6 +348,29 @@ public abstract class Tetromino
       for (int col = 0; col < 4; col++){
         if(shape[row][col] != 0) {
           blocks[row+yCord][col+xCord].setBlock(0);  //Set color back to white.
+        }
+      }
+    }
+    this.erasePieceCopy();
+  }
+  
+   private void drawPieceCopy() {//Method to draw each Tetromino
+    
+    for (int row = 0; row < 4; row++){
+      for (int col = 0; col < 4; col++){
+        if(shape[row][col] != 0){
+          blocksCopy[row + yCord][col + xCord].setBlock(blockColor);
+        }
+      }
+    }
+  }
+  
+  private void erasePieceCopy(){ //A helper method for removing each piece.
+    
+     for (int row = 0; row < 4; row++){
+      for (int col = 0; col < 4; col++){
+        if(shape[row][col] != 0) {
+          blocksCopy[row+yCord][col+xCord].setBlock(0);  //Set color back to white.
         }
       }
     }

@@ -8,15 +8,20 @@ public class TetrisTest{
     GameGUI gui = GameGUI.getInstance();
     PieceFactory p = new PieceFactory();
     Tetromino t1, t2;
+    boolean b;
     
     t1 = p.getPiece(PieceType.L);
     t1.drawPiece();
+    t1.moveDown();
+    t1.moveDown();
+    t1.moveDown();
     
-    t2 = t1.clonePiece();
-    t2.setYCord(t2.getYCord() + 2);
+    t2 = p.getPiece(PieceType.J);
     t2.drawPiece();
-    t2.rotateLeft();
-    t2.moveLeft();
-    t2.moveLeft();  //Test to make sure pieces do not move out of bounds.
+    t2.moveDown();
+    t2.moveDown();
+    t2.rotateRight();
+    
+    t1.rotateLeft();
   }
 }
