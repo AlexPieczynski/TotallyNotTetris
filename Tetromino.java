@@ -49,13 +49,7 @@ public abstract class Tetromino
   //the method called each time the timer hits to drop the piece down one
   //returns false when it hits the ground and can't move down any longer
   public boolean moveDown(){
-    int lowestRow = lowestRow();
-    
-    if(lowestRow + yCord >= 20){
-      System.out.println("Max moveDown: x: " + xCord + " y: " + yCord); 
-     return false;
-    }
-    
+
     if(canMoveDown()){
       this.erasePiece();
       yCord++;
@@ -71,12 +65,6 @@ public abstract class Tetromino
   //move the piece to the left one spot on the grid, if possible
   //returns true if the piece moved, false otherwise
   public void moveLeft(){
-    int leftMostCol = this.leftMostCol();
-    
-    if(leftMostCol + xCord <= 0){ //Cannot move any farther left.
-      System.out.println("Max moveLeft: x: " + xCord + " y: " + yCord); 
-      return;
-    }
     
     if(canMoveLeft()){
       this.erasePiece();
@@ -89,13 +77,7 @@ public abstract class Tetromino
   //move the piece to the right one spot on the grid, if possible
   //returns true if the piece moved, false otherwise
   public void moveRight(){
-    int rightMostCol = this.rightMostCol();
-    
-    if(rightMostCol + xCord >= 10){
-      System.out.println("Max moveRight: x: " + xCord + " y: " + yCord); 
-      return;
-    }
-    
+
     if(canMoveRight()) {
       this.erasePiece();
       xCord++;
@@ -212,22 +194,16 @@ public abstract class Tetromino
     
     Tetromino temp = this.clonePiece(); //Clone the piece to avoid modifying original piece.
     int [][] tempShape = temp.getShape();
-    System.out.println("CurrentX: " + xCord + " CurrentY: " +yCord);
-    this.erasePiece();
+    
+    int leftSide = leftMostCol();
+    
+    if(leftSide + xCord - 1 < 0){ //Already at left limit of screen.
+        return false;}
     
     for (int row = 0; row < 4; row++){
       for (int col = 0; col < 4; col++){
-        try{
-         if(tempShape[row][col] != 0 && blocks[row + yCord][col + xCord - 1].getColor() != 0){
-           ////Not allowed to move left, so return false. Print statement for testing purposes.
-           System.out.println("Error trying to move left: not a valid move!");
-           this.drawPiece();
-           return false;
-         }
-        }
-        catch(ArrayIndexOutOfBoundsException e){
-          System.out.println("Error trying to move left: out of bounds!");
-          this.drawPiece();
+        
+        if(tempShape[row][col] != 0 && blocks[row + yCord][col + xCord - 1].getColor() != 0){
           return false;
         }
       }
@@ -240,21 +216,16 @@ public abstract class Tetromino
     
     Tetromino temp = this.clonePiece(); //Clone the piece to avoid modifying original piece.
     int [][] tempShape = temp.getShape();
-    this.erasePiece();
+    
+    int rightSide = rightMostCol();
+    
+    if(rightSide + xCord + 1 > 9){ //Already at right limit of screen.
+        return false;}
     
     for (int row = 0; row < 4; row++){
       for (int col = 0; col < 4; col++){
-        try{
-         if(tempShape[row][col] != 0 && blocks[row + yCord][col + xCord + 1].getColor() != 0){
-           ////Not allowed to move right, so return false. Print statement for testing purposes.
-           System.out.println("Error trying to move right: not a valid move!");
-           this.drawPiece();
-           return false;
-         }
-        }
-        catch(ArrayIndexOutOfBoundsException e){
-          System.out.println("Error trying to move right: out of bounds!");
-          this.drawPiece();
+        
+        if(tempShape[row][col] != 0 && blocks[row + yCord][col + xCord + 1].getColor() != 0){
           return false;
         }
       }
@@ -267,21 +238,15 @@ public abstract class Tetromino
     Tetromino temp = this.clonePiece(); //Clone the piece to avoid modifying original piece.
     int [][] tempShape = temp.getShape();
     
-    this.erasePiece();
+    int bottom = lowestRow();
+    
+    if(bottom + yCord + 1 > 19){ //Already at bottom of grid.
+      return false;}
     
     for (int row = 0; row < 4; row++){
       for (int col = 0; col < 4; col++){
-        try{
-         if(tempShape[row][col] != 0 && blocks[row + yCord + 1][col + xCord].getColor() != 0){
-           ////Not allowed to move down, so return false. Print statement for testing purposes.
-           System.out.println("Error trying to move down: not a valid move!");
-           this.drawPiece();
-           return false;
-         }
-        }
-        catch(ArrayIndexOutOfBoundsException e){
-          System.out.println("Error trying to move down: out of bounds!");
-          this.drawPiece();
+        
+        if(tempShape[row][col] != 0 && blocks[row + yCord + 1][col + xCord].getColor() != 0){
           return false;
         }
       }
@@ -293,13 +258,25 @@ public abstract class Tetromino
   public int lowestRow(){  //Return the index of the first non-zero row in the shape array.
     int lowestRow = 0;
     
-    for (int col = 0; col < 4; col++)
-      for (int row = 0; row < 4; row++)
-      if(shape[row][col] != 0){
+    for (int row = 0; row < 4; row++)
+      for (int col = 0; col < 4; col++)
+       if(shape[row][col] != 0){
          if (row > lowestRow)
            lowestRow = row;}
-    
+      
     return lowestRow;
+  }
+  
+  public int highestRow(){  //Return the index of the first non-zero row in the shape array.
+    int highestRow = 3;
+    
+    for (int col = 0; col < 4; col++)
+      for (int row = 0; row < 4; row++)
+       if(shape[row][col] != 0){
+         if (row < highestRow)
+           highestRow = row;}
+    
+    return highestRow;
   }
   
   public int leftMostCol(){ //Return index of leftmost non-zero column in shape array.
@@ -319,7 +296,7 @@ public abstract class Tetromino
     
     for (int row = 0; row < 4; row++)
       for (int col = 0; col < 4; col++)
-      if(shape[row][col] != 0){
+       if(shape[row][col] != 0){
          if (col > rightMostCol)
            rightMostCol = col;}
     
@@ -340,16 +317,16 @@ public abstract class Tetromino
   
   public void erasePiece(){ //A helper method for removing each piece.
     
-    for (int row = 0; row < 4; row++){
+     for (int row = 0; row < 4; row++){
       for (int col = 0; col < 4; col++){
-        if(blocks[row + yCord][col + xCord].getColor() == blockColor) {
+        if(shape[row][col] != 0) {
           blocks[row+yCord][col+xCord].setBlock(0);  //Set color back to white.
         }
       }
     }
   }
    
-   public void rotate(){ //Helper method to rotate the piece. Performs 1 left rotation.
+   private void rotate(){ //Helper method to rotate the piece. Performs 1 left rotation.
      
      if(this.type == PieceType.O){ //If square piece, do nothing.
        return;
