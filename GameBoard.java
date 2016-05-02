@@ -43,8 +43,6 @@ public class GameBoard extends JPanel {
     public void resetSpace(){
         int i = 0;
         int j = 0;
-        Dimension d = new Dimension(10, 10);
-        //Dimension d = new Dimension(cellSize, cellSize);
         //Using regular nested loops, not sure how to do the other method for 2d...
          for(i = 0; i<rows; i++){
             for(j = 0; j<cols; j++){

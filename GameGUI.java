@@ -20,7 +20,7 @@ import javax.swing.JPanel;
 
 
 public class GameGUI extends JFrame implements KeyListener {
-    private static GameGUI INSTANCE = null;    //Create instace holder
+    private static GameGUI INSTANCE = null;    //Create instance holder
     
     private GameGUI(){
         initComponents();
@@ -95,6 +95,22 @@ public class GameGUI extends JFrame implements KeyListener {
         //Set Frame
         setSize(450, 770);
         setTitle("Notetris");
+        
+        //Menu item setup
+        menuBar = new JMenuBar();
+        fileMenu = new JMenu("File");
+        helpMenu = new JMenu("Help");
+        
+        exitMitem = new JMenuItem("Exit");
+        aboutMitem = new JMenuItem("About");
+        
+        fileMenu.add(exitMitem);
+        helpMenu.add(aboutMitem);
+        
+        menuBar.add(fileMenu);
+        menuBar.add(helpMenu);
+        
+        setJMenuBar(menuBar);
         
         //Set container
         container = new JPanel();
@@ -191,15 +207,26 @@ public class GameGUI extends JFrame implements KeyListener {
         container.add(controlPanel, BorderLayout.PAGE_END);
         
         //Make filler space
-        Dimension d = new Dimension(70, 600);
+        Dimension d1 = new Dimension(200, 600);
+        Dimension d2 = new Dimension(10, 600);
         LFillPanel = new JPanel();
-        LFillPanel.setPreferredSize(d);
+        LFillPanel.setPreferredSize(d2);
         container.add(LFillPanel, BorderLayout.WEST);
         RFillPanel = new JPanel();
-        RFillPanel.setPreferredSize(d);
+        RFillPanel.setPreferredSize(d1);
+        
+        //Add on deck grid to side panel
+        onDeck = new OnDeckGrid();
+        RFillPanel.add(onDeck);
+        
         container.add(RFillPanel, BorderLayout.EAST);
         
+        
+        
         add(container);
+        
+      
+        
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
         System.out.println("I am " + this.hashCode() + " in the GUI.");
@@ -214,6 +241,7 @@ public class GameGUI extends JFrame implements KeyListener {
     private JPanel LFillPanel;
     private JPanel RFillPanel;
     private GameBoard board;
+    private OnDeckGrid onDeck;
     private JMenuBar menuBar;
     private JMenu fileMenu;
     private JMenu helpMenu;
