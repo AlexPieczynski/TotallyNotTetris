@@ -15,6 +15,7 @@ public class GameState
   private Timer timer;
   public int[][] grid = new int[20][10];
   private GameGUI gui;
+  private OnDeckGrid onDeck;
   
   public GameState()
   {
@@ -29,6 +30,7 @@ public class GameState
     //TODO: DRAW IN ON_DECK
     timer = new Timer(800, new TimeHandler());
     timer.start();
+    onDeck = gui.getOnDeck();
   }
   
   public void moveLeft(){

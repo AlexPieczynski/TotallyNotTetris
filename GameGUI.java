@@ -16,6 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 
@@ -108,7 +109,20 @@ public class GameGUI extends JFrame implements KeyListener {
         helpMenu = new JMenu("Help");
         
         exitMitem = new JMenuItem("Exit");
+        exitMitem.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
         aboutMitem = new JMenuItem("About");
+        aboutMitem.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, about,"About",
+                                              JOptionPane.PLAIN_MESSAGE);
+            }
+        });
         
         fileMenu.add(exitMitem);
         helpMenu.add(aboutMitem);
@@ -180,7 +194,7 @@ public class GameGUI extends JFrame implements KeyListener {
         rotateLBtn.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                //THE METHOD WE WANT
+                game.rotateLeft();
             }
         });
         rotateLBtn.setFocusable(false);    //Don't distract from keyListener
@@ -192,7 +206,7 @@ public class GameGUI extends JFrame implements KeyListener {
         rotateRBtn.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                //THE METHOD WE WANT
+                game.rotateRight();
             }
         });
         rotateRBtn.setFocusable(false);    //Don't distract from keyListener
@@ -204,7 +218,7 @@ public class GameGUI extends JFrame implements KeyListener {
         dropBtn.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                //THE METHOD WE WANT
+                game.pieceDropped();
             }
         });
         dropBtn.setFocusable(false);    //Don't distract from keyListener
@@ -256,4 +270,7 @@ public class GameGUI extends JFrame implements KeyListener {
     private JButton rotateRBtn;
     private JButton dropBtn;
     private GameState game;
+    private final String about = ("----NoTetris----"
+            + "\nUse arrow keys to move pieces left or right. Z and X will rotate."
+            + "\nOtherwise, click the buttons to do your bidding...");
 }
