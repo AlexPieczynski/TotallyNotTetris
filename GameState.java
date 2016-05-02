@@ -24,12 +24,15 @@ public class GameState
     linesCleared = 0;
     level = 1;
     currentPiece = p.getPiece(PieceType.getRandom());
+    currentPiece.drawPiece();
     nextPiece = p.getPiece(PieceType.getRandom());
+    //TODO: DRAW IN ON_DECK
     timer = new Timer(800, new TimeHandler());
     timer.start();
   }
   
   
+  // called when a piece reaches the bottom of it's fall
   public void pieceDropped()
   {
     score += 10;
@@ -122,6 +125,7 @@ public class GameState
     {
       // move piece down one,
       //   unless piece can't move down
+      System.out.println("TIMER FIRED");
       if (currentPiece.moveDown() == false){
         pieceDropped();
       }
@@ -170,34 +174,36 @@ public class GameState
   // TEST CODE
   public static void main(String[] args)
   {
-    GameState gs = new GameState();
-    int[][] grid = gs.grid;  
+//    GameState gs = new GameState();
+//    int[][] grid = gs.grid;  
+//    
+//    // fill grid, except top row
+//    for (int i=0; i < grid.length-1; i++) {
+//      for (int j=0; j < grid[0].length; j++) {
+//        grid[i][j] = 1;
+//      }
+//    }
+//    
+//    gs.printGrid();
+//    gs.clearLines();
+//    gs.printGrid();
+//    
+//    // fill grid, different pattern
+//    for (int i=0; i < grid.length-1; i++) {
+//      for (int j=0; j < grid[0].length; j++) {
+//        grid[i][j] = 0;
+//      }
+//    }
+//    for (int i=0; i < grid.length-1; i++) {
+//      for (int j=0; j < 5; j++) {
+//        grid[i][j] = 1;
+//      }
+//    }
+//    
+//    gs.printGrid();
+//    gs.clearLines();
+//    gs.printGrid();
     
-    // fill grid, except top row
-    for (int i=0; i < grid.length-1; i++) {
-      for (int j=0; j < grid[0].length; j++) {
-        grid[i][j] = 1;
-      }
-    }
-    
-    gs.printGrid();
-    gs.clearLines();
-    gs.printGrid();
-    
-    // fill grid, different pattern
-    for (int i=0; i < grid.length-1; i++) {
-      for (int j=0; j < grid[0].length; j++) {
-        grid[i][j] = 0;
-      }
-    }
-    for (int i=0; i < grid.length-1; i++) {
-      for (int j=0; j < 5; j++) {
-        grid[i][j] = 1;
-      }
-    }
-    
-    gs.printGrid();
-    gs.clearLines();
-    gs.printGrid();
+    GameGUI gui = GameGUI.getInstance();
   }
 }
