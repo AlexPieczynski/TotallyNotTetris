@@ -27,6 +27,7 @@ public class GameState
     currentPiece = p.getPiece(PieceType.getRandom());
     currentPiece.drawPiece();
     nextPiece = p.getPiece(PieceType.getRandom());
+    gui.setScoreLabel("0");
     //TODO: DRAW IN ON_DECK
     timer = new Timer(800, new TimeHandler());
     timer.start();
@@ -68,6 +69,9 @@ public class GameState
     if (c > 0)
       linesCleared(c);
     
+    //update score in GUI
+    gui.setScoreLabel("" + score);
+    
     // place next on deck at top of board
     currentPiece = nextPiece;
     if (spotOpen())
@@ -79,7 +83,7 @@ public class GameState
     nextPiece = p.getPiece(PieceType.getRandom());
     //TODO: MAKE GUI DISPLAY NEW PIECE ON DECK
     
-    //TODO: UPDATE GUI SCORE
+    gui.setScoreLabel("" + score);
   }
   
   
