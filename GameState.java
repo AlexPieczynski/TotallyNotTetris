@@ -30,13 +30,15 @@ public class GameState
   
   public void startTimer() {
     gui = GameGUI.getInstance();
+    onDeck = gui.getOnDeck();
     p = new PieceFactory();
+    gui.setScoreLabel("0");
+    
     currentPiece = p.getPiece(PieceType.getRandom());
     nextPiece = p.getPiece(PieceType.getRandom());
-    gui.setScoreLabel("0");
-    onDeck = gui.getOnDeck();
     currentPiece.drawPiece();
-    //TODO: DRAW IN ON_DECK
+    nextPiece.drawOnDeck();    
+    
     timer.start();
   }
   
@@ -66,14 +68,16 @@ public class GameState
     
     // update grid
     for (Pair p : currentPiece.getPositions())
-      grid[p.getY()][p.getX()] = 1;
+      grid[p.getY()][p.getX()] = currentPiece.blockColor;
     
     // check for lines that need to be cleared
     int c = clearLines();
     
-    // update score if lines were cleared
-    if (c > 0)
+    // update score and GUI if lines were cleared
+    if (c > 0) {
+       gui.getBoard().updateSpace(grid);
       linesCleared(c);
+    }
     
     //update score in GUI
     gui.setScoreLabel("" + score);
@@ -87,7 +91,7 @@ public class GameState
     
     // set up next piece on deck
     nextPiece = p.getPiece(PieceType.getRandom());
-    //TODO: MAKE GUI DISPLAY NEW PIECE ON DECK
+    nextPiece.drawOnDeck();
     
     gui.setScoreLabel("" + score);
   }
@@ -116,7 +120,7 @@ public class GameState
     int count = 0;
     int i,j;
     //loop through all rows, checking if they can be cleared
-    for (i=0; i < grid.length && count < 4; i++)
+    for (i=grid.length-1; i >= 0 && count < 4; i--)
     {
       for (j=0; j < grid[0].length; j++)
       {
@@ -127,13 +131,14 @@ public class GameState
       if (j == grid[0].length) {//line should be cleared
         count++;
         // implement gravity
-        for (j=i; j < grid.length-1; j++) {
+        for (j=i; j > 0; j--) {
           for (int k=0; k < grid[0].length; k++)
-            grid[j][k] = grid[j+1][k];
+            grid[j][k] = grid[j-1][k];
         }
-        i--;
+        i++;
       }
-    }    
+    }
+    
     return count;
   }
   
@@ -168,7 +173,7 @@ public class GameState
     linesCleared += n;
     if ( (linesCleared/10) > temp ){
       level++;
-      timer.setDelay((int)((50 - (level*2)) / 60.0) * 1000);
+      timer.setDelay((int)((((50 - (level*2))/60.0))*1000));
     }    
   }
   
@@ -179,9 +184,7 @@ public class GameState
     {
       // move piece down one,
       //   unless piece can't move down
-      System.out.println("TIMER FIRED");
       if (currentPiece.moveDown() == false){
-        System.out.println("PIECE DROPPED");
         pieceDropped();
       }
     }
@@ -196,18 +199,6 @@ public class GameState
     JOptionPane.showMessageDialog(null, "Game Over.\nPlease Try Again.",
                                   "GAME OVER", JOptionPane.PLAIN_MESSAGE);
     
-  }
-  
-  
-  // update GUI with grid
-  public void updateGUI()
-  {
-    TetrisBlock[][] guiGrid = gui.getBoard().getGameSpace();
-    for (int i=0; i < grid.length; i++) {
-      for (int j=0; j < grid[i].length; j++) {
-        guiGrid[i][j].setBlock(grid[i][j]);
-      }
-    }
   }
   
   

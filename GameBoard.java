@@ -54,6 +54,16 @@ public class GameBoard extends JPanel {
         }
     }
     
+    
+    // called when GameState needs to update grid after
+    //   line clears
+    public void updateSpace(int[][] grid) {
+      for (int i=0; i < grid.length && count < 4; i++) {
+       for (int j=0; j < grid[0].length; j++)
+         gameSpace[i][j].setBlock(grid[i][j]);
+      }
+    }
+    
     //Method to get the array representing the Tetris grid logic.
     public TetrisBlock[][] getGameSpace(){
       return gameSpace;
