@@ -13,6 +13,7 @@ import static java.awt.event.KeyEvent.VK_Z;
 import java.awt.event.KeyListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -98,6 +99,11 @@ public class GameGUI extends JFrame implements KeyListener {
     }
 
     
+    public void setScoreLabel(String s){
+        scoreLabel.setText(s);
+    }
+    
+    
     private void initComponents() {
         //Set Frame
         setSize(450, 770);
@@ -151,6 +157,12 @@ public class GameGUI extends JFrame implements KeyListener {
         });
         startButton.setFocusable(false);    //Don't distract from keyListener
         topPanel.add(startButton);
+        
+        //Add score label
+        textLabel = new JLabel("Score:");
+        topPanel.add(textLabel);
+        scoreLabel = new JLabel("");
+        topPanel.add(scoreLabel);
         
         //Set GameBoard - Extends JPanel
         //Gameboard class constructor takes care of initializing sizes
@@ -264,13 +276,15 @@ public class GameGUI extends JFrame implements KeyListener {
     private JMenuItem exitMitem;
     private JMenuItem aboutMitem;
     private JButton startButton;
+    private JLabel textLabel;
+    private JLabel scoreLabel;
     private JButton moveLBtn;
     private JButton moveRBtn;
     private JButton rotateLBtn;
     private JButton rotateRBtn;
     private JButton dropBtn;
     private GameState game;
-    private final String about = ("----NoTetris----"
+    private final String about = ("                      ----NoTetris----"
             + "\nUse arrow keys to move pieces left or right. Z and X will rotate."
             + "\nOtherwise, click the buttons to do your bidding...");
 }
