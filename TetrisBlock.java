@@ -17,6 +17,10 @@ public class TetrisBlock extends JLabel{
       color = 0;   
   }
   
+  public TetrisBlock(int newColor){
+    color = newColor;
+  }
+  
   public void setBlock(int i){
       color = i;
       this.setIcon(icons[this.color]);

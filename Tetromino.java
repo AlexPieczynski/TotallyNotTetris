@@ -15,7 +15,7 @@ public abstract class Tetromino
   protected GameGUI gui;
   protected GameBoard gb;
   protected TetrisBlock[][] blocks;
-  protected TetrisBlock[][] blocksCopy;
+  protected int[][] logicGrid;
   
   protected final int ROW_MAX = 20; //Max height of the grid in Tetris blocks.
   protected final int COL_MIN = 0;
@@ -41,13 +41,17 @@ public abstract class Tetromino
     this.gui = GameGUI.getInstance();
     this.gb = gui.getBoard();
     this.blocks = gb.getGameSpace();
-    this.blocksCopy = blocks.clone();
+    this.logicGrid = this.setLogicGrid();
   }
   
   //Method to get coordinates of each Tetromino block.
   public Vector<Pair> getPositions(){
     
     return positions;
+  }
+  
+  public int[][] getLogicGrid(){
+    return logicGrid;
   }
   
   //Method to change the orientation  of a piece.
@@ -61,17 +65,18 @@ public abstract class Tetromino
 
     if(canMoveDown()){
       this.erasePiece();
-      this.erasePieceCopy();
+      this.eraseFromLogic();
       
       yCord++;
       
+      this.updatePositions();
       this.drawPiece();
-      this.drawPieceCopy();
+      this.drawToLogic();
       
       return true;
     }
      
-    return false; //If got here, not able to move down.    
+    return false; //If got here, not able to move down.
   }
   
   //called from keyListener for left arrow key
@@ -81,12 +86,13 @@ public abstract class Tetromino
     
     if(canMoveLeft()){
       this.erasePiece();
-      this.erasePieceCopy();
+      this.eraseFromLogic();
       
       xCord--;
       
+      this.updatePositions();
       this.drawPiece();
-      this.drawPieceCopy();
+      this.drawToLogic();
     }
   }
   
@@ -97,12 +103,13 @@ public abstract class Tetromino
 
     if(canMoveRight()) {
       this.erasePiece();
-      this.erasePieceCopy();
+      this.eraseFromLogic();
       
       xCord++;
       
+      this.updatePositions();
       this.drawPiece();
-      this.drawPieceCopy();
+      this.drawToLogic();
     }
   }
   
@@ -133,11 +140,24 @@ public abstract class Tetromino
     temp.setXCord(this.xCord);
     temp.setYCord(this.yCord);
     
+    updatePositions();
+    
     while(temp.getOrientation() != this.orientation ) //Rotate until temp piece is oriented like old piece.
       temp.rotate();
     
     return temp;
   }
+  
+  public int[][] setLogicGrid(){
+    int[][] tempGrid = new int[ROW_MAX][COL_MAX];
+    
+    for(int i = 0; i < 20; i++)
+      for(int j = 0; j < 10; j++)
+       tempGrid[i][j] = blocks[i][j].getColor();
+    
+    return tempGrid;
+  }
+  
  
 //**Methods for rotating the blocks left and right.
   public void rotateLeft() {
@@ -145,8 +165,15 @@ public abstract class Tetromino
       return;
     }
     if(canRotateLeft()){
+      
+     this.erasePiece();
+     this.eraseFromLogic();
+     
      rotate(); //The default rotation is left so simply do one rotation.
+     
+     this.updatePositions();
      this.drawPiece();
+     this.drawToLogic();
     }
   }
   
@@ -156,12 +183,13 @@ public abstract class Tetromino
     }//For all other blocks rotate 3 times (3 left rotations == 1 right rotation).
     if(canRotateRight()){
       this.erasePiece();
-      this.erasePieceCopy();
+      this.eraseFromLogic();
       
       for(int i = 0; i < 3; i++){ rotate();}
       
+      this.updatePositions();
       this.drawPiece();
-      this.drawPieceCopy();
+      this.drawToLogic();
     }
   }
   
@@ -169,129 +197,132 @@ public abstract class Tetromino
     return shape;
   }
   
-  public void setShape(int[][] shape){ //Set the shape array and dimensions of the Tetromino
-    this.shape = shape.clone();
+  public void setShape(int[][] newShape){ //Set the shape array and dimensions of the Tetromino
+    
+    this.shape = new int[4][4];
+    positions.clear();//Make sure positions array is empty each time we set new shape.
     
     // set up positions array
     for (int row = 0; row < 4; row++){
       for (int col = 0; col < 4; col++){
-        if(shape[row][col] != 0){
-          blocks[row + yCord][col + xCord].setBlock(blockColor);
+        if(newShape[row][col] != 0){
+          shape[row][col] = 1;       //Setup the new shape array and its positions Vector.
           positions.add(new Pair(col+xCord, row+yCord));
         }
       }
     }
+  }
+  
+  public void updatePositions(){ //Method for updating the positions Vector.
+    
+    positions.clear(); //First clear the Vector to help avoid errors.
+    
+    for (int row = 0; row < 4; row++)
+      for (int col = 0; col < 4; col++)
+      if(shape[row][col] != 0){
+        positions.add(new Pair(col+xCord, row+yCord));
+    }
+      
   }
   //-----Start of methods to check for valid  moves.
   
   public boolean canRotateLeft(){ //Helper method to see if the Tetromino is allowed to rotate.
     
     Tetromino temp = this.clonePiece(); //Clone the piece to avoid modifying original piece.
-    temp.rotate(); //First try a left rotation.
-    int [][] tempShape = temp.getShape();
-    this.erasePieceCopy();
+    temp.eraseFromLogic(); //Remove from the grid logic to avoid unwanted collisions.
     
-    for (int row = 0; row < 4; row++){
-      for (int col = 0; col < 4; col++){
-        if(tempShape[row][col] != 0 && blocks[row + yCord][col + xCord].getColor() != 0){
-        //Not allowed to rotate, so return false. //Print statement for testing purposes.
-          System.out.println("Error trying to rotate left: not a valid move!");
-          this.drawPieceCopy();
-          return false;
-        }
-      }
-    }//Allowed to rotate. Return true.
-    return true;
-  }
-  
-  public boolean canRotateRight(){ //Helper method to see if the Tetromino is allowed to rotate.
+    temp.rotate(); //Try a left rotation.
+    temp.updatePositions();
     
-    Tetromino temp = this.clonePiece(); //Clone the piece to avoid modifying original piece.
-    for(int i = 0; i < 3; i++){ temp.rotate();} //First try a right rotation.
-    int [][] tempShape = temp.getShape();
-    this.erasePieceCopy();
-    
-    this.erasePiece();
-    for (int row = 0; row < 4; row++){
-      for (int col = 0; col < 4; col++){
-        if(tempShape[row][col] != 0 && blocks[row + yCord][col + xCord].getColor() != 0){
-          ////Not allowed to rotate, so return false. Print statement for testing purposes.
-          System.out.println("Error trying to rotate right: not a valid move!");
-          this.drawPieceCopy();
-          return false;
-        }
+    for (Pair p : temp.getPositions()) { //Check for collisions at one left rotation.
+      
+      if(temp.getLogicGrid()[p.getY()][p.getX()] != 0){
+          //Not allowed to rotate, so return false. Print statement for testing purposes.
+        System.out.println("Error trying to rotate left: not a valid move!");
+        return false;
       }
     }
     //Allowed to rotate. Return true.
     return true;
   }
   
-  public boolean canMoveLeft(){
-    
+  public boolean canRotateRight(){ //Helper method to see if the Tetromino is allowed to rotate.
+  
     Tetromino temp = this.clonePiece(); //Clone the piece to avoid modifying original piece.
-    int [][] tempShape = temp.getShape();
+    temp.eraseFromLogic();
+    
+    for(int i = 0; i < 3; i++){ temp.rotate();} //Try a right rotation.
+    temp.updatePositions();
+    
+    
+    for (Pair p : temp.getPositions()) { //Check for collisions at one right rotation.
+      
+       if(temp.getLogicGrid()[p.getY()][p.getX()] != 0){
+          //Not allowed to rotate, so return false. Print statement for testing purposes.
+          System.out.println("Error trying to rotate right: not a valid move!");
+          return false;
+       }
+    }
+    //Allowed to rotate. Return true.
+    return true;
+  }
+  
+  public boolean canMoveLeft(){ //Check to see if we are allowed to move left.
     
     int leftSide = leftMostCol();
     
     if(leftSide + xCord - 1 < 0){ //Already at left limit of screen.
         return false;}
-   
-    this.erasePieceCopy();
-    for (int row = 0; row < 4; row++){
-      for (int col = 0; col < 4; col++){
-        
-        if(tempShape[row][col] != 0 && blocks[row + yCord][col + xCord - 1].getColor() != 0){
-          this.drawPieceCopy();
-          return false;
-        }
+    
+    this.eraseFromLogic(); //Remove the piece from logic grid to avoid accidental collision detection
+    
+    for (Pair p : this.getPositions()){
+      
+      if(logicGrid[p.getY()][p.getX() - 1] != 0) { //Check fro collisions at one space to right.
+        this.drawToLogic(); //Found a collision so return false.
+        return false;
       }
     }
     //Allowed to move left. Return true.
     return true;
   }
   
-  public boolean canMoveRight(){
-    
-    Tetromino temp = this.clonePiece(); //Clone the piece to avoid modifying original piece.
-    int [][] tempShape = temp.getShape();
+  public boolean canMoveRight(){  //Check to see if we are allowed to move right. 
     
     int rightSide = rightMostCol();
     
     if(rightSide + xCord + 1 > 9){ //Already at right limit of screen.
         return false;}
-    this.erasePieceCopy();
-    for (int row = 0; row < 4; row++){
-      for (int col = 0; col < 4; col++){
-        
-        if(tempShape[row][col] != 0 && blocks[row + yCord][col + xCord + 1].getColor() != 0){
-          this.drawPieceCopy();
-          return false;
-        }
+    
+    this.eraseFromLogic(); //Remove the piece from logic grid to avoid accidental collision detection
+    
+    for (Pair p : this.getPositions()){
+      
+      if(logicGrid[p.getY()][p.getX() + 1] != 0) { //Check fro collisions at one space to right.
+        this.drawToLogic(); //Found a collision so return false.
+        return false;
       }
     }
-    //Allowed to move left. Return true.
+    //Allowed to move right. Return true.
     return true;
   }
   
   public boolean canMoveDown(){
-    Tetromino temp = this.clonePiece(); //Clone the piece to avoid modifying original piece.
-    int [][] tempShape = temp.getShape();
     
     int bottom = lowestRow();
     
-    System.out.println("bottom: " + bottom + " yCord: " + yCord);
-    
     if(bottom + yCord + 1 > 19){ //Already at bottom of grid.
-      return false;}
+      return false;
+    }
     
-    this.erasePieceCopy();
-    for (int row = 0; row < 4; row++){
-      for (int col = 0; col < 4; col++){
+    this.eraseFromLogic(); //Remove the piece from logic grid to avoid accidental collision detection
+    
+    for (Pair p : this.getPositions()){
+      
+      if(logicGrid[p.getY() + 1][p.getX()] != 0) { //Check for collisions at one space down.
         
-        if(tempShape[row][col] != 0 && blocks[row + yCord + 1][col + xCord].getColor() != 0){
-          this.drawPieceCopy();
-          return false;
-        }
+        this.drawToLogic(); //Found a collision so return false.
+        return false;
       }
     }
     //Allowed to move down. Return true.
@@ -349,49 +380,43 @@ public abstract class Tetromino
   //-------------------End of methods to check for valid moves-------------------
   public void drawPiece() {//Method to draw each Tetromino
     
-    for (int row = 0; row < 4; row++){
-      for (int col = 0; col < 4; col++){
-        if(shape[row][col] != 0){
-          blocks[row + yCord][col + xCord].setBlock(blockColor);
-        }
-      }
+    for (Pair p : this.getPositions()){
+      blocks[p.getY()][p.getX()].setBlock(blockColor);
     }
-    this.drawPieceCopy();//Also draws a current shape.
+    
+    drawToLogic(); //Copy to the logic array.
   }
   
-  public void erasePiece(){ //A helper method for removing each piece.
+  public void erasePiece(){ //A helper method for removing each piece from grid.
     
-     for (int row = 0; row < 4; row++){
-      for (int col = 0; col < 4; col++){
-        if(shape[row][col] != 0) {
-          blocks[row+yCord][col+xCord].setBlock(0);  //Set color back to white.
-        }
-      }
+    for (Pair p : this.getPositions()){
+      blocks[p.getY()][p.getX()].setBlock(0);
     }
-    this.erasePieceCopy(); //Update the copy and positions Vector as well.
-    positions.removeAllElements();
+    
+    positions.clear(); //Erase all positions from vector.
   }
   
-   private void drawPieceCopy() {//Method to draw each Tetromino
-    
-    for (int row = 0; row < 4; row++){
-      for (int col = 0; col < 4; col++){
-        if(shape[row][col] != 0){
-          blocksCopy[row + yCord][col + xCord].setBlock(blockColor);
-        }
-      }
+  public void drawToLogic(){
+    for (Pair p : this.getPositions()){   //Update the logic grid. Used for collision detection.
+      logicGrid[p.getY()][p.getX()]= blockColor;
     }
   }
   
-  private void erasePieceCopy(){ //A helper method for removing each piece.
-    
-     for (int row = 0; row < 4; row++){
-      for (int col = 0; col < 4; col++){
-        if(shape[row][col] != 0) {
-          blocksCopy[row+yCord][col+xCord].setBlock(0);  //Set color back to white.
-        }
-      }
+  public void eraseFromLogic(){
+    for (Pair p : this.getPositions()){
+      logicGrid[p.getY()][p.getX()] = 0;
     }
+  }
+  
+  private void printLogicGrid(){ //Used for testing.
+    System.out.println(" - - - - - - - - - - ");
+     for(int i = 0; i < 20; i++){
+      for(int j = 0; j < 10; j++){
+        System.out.print(" " + logicGrid[i][j]);
+      }
+      System.out.println();
+    }
+     System.out.println(" - - - - - - - - - - ");
   }
    
    private void rotate(){ //Helper method to rotate the piece. Performs 1 left rotation.
