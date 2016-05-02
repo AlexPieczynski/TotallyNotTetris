@@ -31,6 +31,24 @@ public class GameState
     timer.start();
   }
   
+  public void moveLeft(){
+      currentPiece.moveLeft();
+  }
+  
+  
+  public void moveRight(){
+      currentPiece.moveRight();
+  }
+  
+  
+  public void rotateLeft(){
+      
+  }
+  
+  
+  public void rotateRight(){
+      
+  }
   
   // called when a piece reaches the bottom of it's fall
   public void pieceDropped()

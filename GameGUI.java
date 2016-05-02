@@ -20,19 +20,25 @@ import javax.swing.JPanel;
 
 
 public class GameGUI extends JFrame implements KeyListener {
+    
     private static GameGUI INSTANCE = null;    //Create instance holder
     
     private GameGUI(){
+        // Construct the instance
         initComponents();
     }
     
     
     public static void main(String args[]) {
-        //
+        // Call to create the one and only instance of of the GUI 
         getInstance();
     }
     
     //----------------Methods------------------//
+    
+    public OnDeckGrid getOnDeck(){
+        return this.onDeck;
+    }
     
     public static GameGUI getInstance(){
         if(INSTANCE == null){
@@ -65,10 +71,10 @@ public class GameGUI extends JFrame implements KeyListener {
         
         switch(key){
             case VK_LEFT://to move left
-                System.out.println("move left");
+                game.moveLeft();
                 break;
             case VK_RIGHT:
-                System.out.println("move right");
+                game.moveRight();
                 break;
             case VK_Z:
                 System.out.println("rotate ccw");
