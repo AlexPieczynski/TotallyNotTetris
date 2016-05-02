@@ -14,13 +14,13 @@ public class TetrisTest{
     Tetromino t2 = p.getPiece(PieceType.J);
      
     t1.drawPiece();
-    t1.rotateRight();
     t1.moveDown();
     t1.moveDown();
-    
+    t1.rotateLeft();
+   
     t2.drawPiece();
     t2.moveDown();
     t2.rotateLeft();
-    t2.printLogicGrid();
+    t1.printLogicGrid();
   }
 }

@@ -226,7 +226,7 @@ public abstract class Tetromino
   public boolean canRotateLeft(){ //Helper method to see if the Tetromino is allowed to rotate.
     
     Tetromino temp = this.clonePiece(); //Clone the piece to avoid modifying original piece.
-    temp.eraseFromLogic(); //Remove from the grid logic to avoid unwanted collisions.
+    this.eraseFromLogic(); //Remove from the grid logic to avoid unwanted collisions.
     
     temp.rotate(); //Try a left rotation.
     temp.updatePositions();
@@ -236,6 +236,7 @@ public abstract class Tetromino
       if(temp.getLogicGrid()[p.getY()][p.getX()] != 0){
           //Not allowed to rotate, so return false. Print statement for testing purposes.
         System.out.println("Error trying to rotate left: not a valid move!");
+        this.drawToLogic();
         return false;
       }
     }
@@ -246,7 +247,7 @@ public abstract class Tetromino
   public boolean canRotateRight(){ //Helper method to see if the Tetromino is allowed to rotate.
   
     Tetromino temp = this.clonePiece(); //Clone the piece to avoid modifying original piece.
-    temp.eraseFromLogic();
+    this.eraseFromLogic();
     
     for(int i = 0; i < 3; i++){ temp.rotate();} //Try a right rotation.
     temp.updatePositions();
@@ -257,6 +258,7 @@ public abstract class Tetromino
        if(temp.getLogicGrid()[p.getY()][p.getX()] != 0){
           //Not allowed to rotate, so return false. Print statement for testing purposes.
           System.out.println("Error trying to rotate right: not a valid move!");
+          this.drawToLogic();
           return false;
        }
     }
