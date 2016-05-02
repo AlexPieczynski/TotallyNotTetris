@@ -20,18 +20,19 @@ public class GameState
   
   public GameState()
   {
-    p = new PieceFactory();
     score = 0;
     linesCleared = 0;
     level = 1;
-    currentPiece = p.getPiece(PieceType.getRandom());
-    nextPiece = p.getPiece(PieceType.getRandom());
+    
     timeHandler = new TimeHandler();
     timer = new Timer(800, timeHandler);
   }
   
   public void startTimer() {
     gui = GameGUI.getInstance();
+    p = new PieceFactory();
+    currentPiece = p.getPiece(PieceType.getRandom());
+    nextPiece = p.getPiece(PieceType.getRandom());
     gui.setScoreLabel("0");
     onDeck = gui.getOnDeck();
     currentPiece.drawPiece();
@@ -180,6 +181,7 @@ public class GameState
       //   unless piece can't move down
       System.out.println("TIMER FIRED");
       if (currentPiece.moveDown() == false){
+        System.out.println("PIECE DROPPED");
         pieceDropped();
       }
     }

@@ -85,7 +85,7 @@ public class GameGUI extends JFrame implements KeyListener {
                 game.rotateRight();
                 break;    
             case VK_SPACE:
-                game.pieceDropped();
+                game.timeHandler.actionPerformed(null);
                 break;   
             default:    //Nevermind this
                 break;
