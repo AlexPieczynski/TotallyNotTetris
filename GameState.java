@@ -37,6 +37,10 @@ public class GameState
   {
     score += 10;
     
+    // update grid
+    for (Pair p : currentPiece.getPositions())
+      grid[p.getY()][p.getX()] = 1;
+    
     // check for lines that need to be cleared
     int c = clearLines();
     
@@ -44,13 +48,32 @@ public class GameState
     if (c > 0)
       linesCleared(c);
     
+    // place next on deck at top of board
     currentPiece = nextPiece;
-    //TODO: PUT NEW PIECE AT TOP
+    if (spotOpen())
+      currentPiece.drawPiece();
+    else
+      gameLost();
+    
+    // set up next piece on deck
     nextPiece = p.getPiece(PieceType.getRandom());
     //TODO: MAKE GUI DISPLAY NEW PIECE ON DECK
-    if (false) //TODO: CHECK IF PIECE CAN BE PLACED AT TOP
-      gameLost();
     //TODO: UPDATE GUI SCORE
+  }
+  
+  
+  // returns true if there is a spot for the tetromino at
+  //   the top of the board
+  // false if the piece can't be place, game will then end
+  public boolean spotOpen()
+  {
+    for (Pair p : currentPiece.getPositions())
+    {
+      if (grid[p.getY()][p.getX()] != 0)
+        return false;
+    }
+    
+    return true;
   }
   
   

@@ -171,6 +171,16 @@ public abstract class Tetromino
   
   public void setShape(int[][] shape){ //Set the shape array and dimensions of the Tetromino
     this.shape = shape.clone();
+    
+    // set up positions array
+    for (int row = 0; row < 4; row++){
+      for (int col = 0; col < 4; col++){
+        if(shape[row][col] != 0){
+          blocks[row + yCord][col + xCord].setBlock(blockColor);
+          positions.add(new Pair(col+xCord, row+yCord));
+        }
+      }
+    }
   }
   //-----Start of methods to check for valid  moves.
   
@@ -343,7 +353,6 @@ public abstract class Tetromino
       for (int col = 0; col < 4; col++){
         if(shape[row][col] != 0){
           blocks[row + yCord][col + xCord].setBlock(blockColor);
-          positions.add(new Pair(col+xCord, row+yCord));
         }
       }
     }
