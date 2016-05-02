@@ -10,6 +10,7 @@ public abstract class Tetromino
   
   protected int[][][] possibleShapes;
   protected int[][] shape; //Values to be set by child classes.
+  private Vector<Pair> positions = new Vector<Pair>(4);
   
   protected GameGUI gui;
   protected GameBoard gb;
@@ -41,6 +42,12 @@ public abstract class Tetromino
     this.gb = gui.getBoard();
     this.blocks = gb.getGameSpace();
     this.blocksCopy = blocks.clone();
+  }
+  
+  //Method to get coordinates of each Tetromino block.
+  public Vector<Pair> getPositions(){
+    
+    return positions;
   }
   
   //Method to change the orientation  of a piece.
@@ -336,6 +343,7 @@ public abstract class Tetromino
       for (int col = 0; col < 4; col++){
         if(shape[row][col] != 0){
           blocks[row + yCord][col + xCord].setBlock(blockColor);
+          positions.add(new Pair(col+xCord, row+yCord));
         }
       }
     }
@@ -351,7 +359,8 @@ public abstract class Tetromino
         }
       }
     }
-    this.erasePieceCopy();
+    this.erasePieceCopy(); //Update the copy and positions Vector as well.
+    positions.removeAllElements();
   }
   
    private void drawPieceCopy() {//Method to draw each Tetromino

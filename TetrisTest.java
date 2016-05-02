@@ -1,5 +1,6 @@
 import javax.swing.*;
-import java.util.concurrent.TimeUnit;
+import java.util.*;
+
 
 public class TetrisTest{
   
@@ -13,15 +14,17 @@ public class TetrisTest{
     t1 = p.getPiece(PieceType.L);
     t1.drawPiece();
     t1.moveDown();
-    t1.moveDown();
-    t1.moveDown();
+    t1.rotateRight();
     
-    t2 = p.getPiece(PieceType.J);
-    t2.drawPiece();
-    t2.moveDown();
-    t2.moveDown();
-    t2.rotateRight();
+    Vector<Pair> positions = t1.getPositions();
+    int x;
+    int y;
     
-    t1.rotateLeft();
+    for(int i = 0; i < positions.size(); i++){
+      x = positions.elementAt(i).getX();
+      y = positions.elementAt(i).getY();
+      
+       System.out.println("x: " + x + " y: " + y);
+    }
   }
 }
