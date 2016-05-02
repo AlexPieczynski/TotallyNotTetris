@@ -16,22 +16,27 @@ public class GameState
   public int[][] grid = new int[20][10];
   private GameGUI gui;
   private OnDeckGrid onDeck;
+  public TimeHandler timeHandler;
   
   public GameState()
   {
-    gui = GameGUI.getInstance();
     p = new PieceFactory();
     score = 0;
     linesCleared = 0;
     level = 1;
     currentPiece = p.getPiece(PieceType.getRandom());
-    currentPiece.drawPiece();
     nextPiece = p.getPiece(PieceType.getRandom());
+    timeHandler = new TimeHandler();
+    timer = new Timer(800, timeHandler);
+  }
+  
+  public void startTimer() {
+    gui = GameGUI.getInstance();
     gui.setScoreLabel("0");
-    //TODO: DRAW IN ON_DECK
-    timer = new Timer(800, new TimeHandler());
-    timer.start();
     onDeck = gui.getOnDeck();
+    currentPiece.drawPiece();
+    //TODO: DRAW IN ON_DECK
+    timer.start();
   }
   
   public void moveLeft(){
@@ -168,7 +173,7 @@ public class GameState
   
   
   //function that gets called when the Timer fires
-  private class TimeHandler implements ActionListener{
+  public class TimeHandler implements ActionListener{
     public void actionPerformed( ActionEvent event )
     {
       // move piece down one,
