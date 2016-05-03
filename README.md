@@ -37,7 +37,7 @@ Factory Pattern
 We will create a class called PieceFactory, which returns an object of type Tetromino (which is the class that all the Tetrominos will be based on). This factory will take in a randomly generated integer (we can use an enum for clarity here) that corresponds to each of the 7 different pieces. It returns a Tetromino piece, useful for deciding the next Tetris piece that will begin falling when the current one drops.
 
 Code example:
-public class PieceFactory{
+  public class PieceFactory{
   public Tetromino getPiece(PieceType piece){
     
     //Base object for a peice.
@@ -90,12 +90,12 @@ public class IPiece extends Tetromino{
             
     this.setShape(possibleShapes[0].clone());
     this.blockColor = 1;
-  }
+     }
   
-}
+    }
 
-public class TPiece extends Tetromino{
-  public TPiece(){
+    public class TPiece extends Tetromino{
+    public TPiece(){
     
     super(PieceType.T);
     //Create array of all possible shapes for this tetromino.
@@ -122,11 +122,11 @@ public class TPiece extends Tetromino{
       }; //Set array for T shape.
     this.setShape(possibleShapes[0].clone());
     this.blockColor = 2;
-  }
-}
+    }
+    }
 
-public class OPiece extends Tetromino{
-  public OPiece(){
+    public class OPiece extends Tetromino{
+    public OPiece(){
     super(PieceType.O);
     //Create array of all possible shapes for this tetromino.
     int[][] shape = new int[][]{
@@ -137,8 +137,8 @@ public class OPiece extends Tetromino{
       }; //Set array for O shape.
     this.setShape(shape);
     this.blockColor = 3;
-  }
-}
+    }
+    }
 
 ...
 
