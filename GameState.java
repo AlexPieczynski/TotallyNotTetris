@@ -45,8 +45,9 @@ public class GameState
     p = new PieceFactory();
     gui.setScoreLabel("0");
     gui.setTimeLabel("0");
-    //TODO: CLEAR BOARD
-    //TODO: CLEAR ON DECK
+    gui.getBoard().reset();
+    gui.getOnDeck().reset();
+    
     
     currentPiece = p.getPiece(PieceType.getRandom());
     nextPiece = p.getPiece(PieceType.getRandom());

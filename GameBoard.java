@@ -54,6 +54,16 @@ public class GameBoard extends JPanel {
         }
     }
     
+    public void reset(){
+        int i = 0;
+        int j = 0;
+        //Using regular nested loops, not sure how to do the other method for 2d...
+         for(i = 0; i<rows; i++){
+            for(j = 0; j<cols; j++){                
+                gameSpace[i][j].setBlock(0);               
+            }
+        }
+    }
     
     // called when GameState needs to update grid after
     //   line clears
