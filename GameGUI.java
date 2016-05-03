@@ -340,6 +340,6 @@ public class GameGUI extends JFrame implements KeyListener {
             + "\ndo your bidding...");
     private final String about = (""
             + "Welcome to NoTetris, a deceptivley familiar gaming experience"
-            + "\nbrought to you by Ben Carver, Alex AlexPieczynski and Al Hernandez"
+            + "\nbrought to you by Ben Carver, Alex Pieczynski and Al Hernandez"
             + "\nfor CS 342 project 5.");
 }
