@@ -44,6 +44,7 @@ public class GameState
     onDeck = gui.getOnDeck();
     p = new PieceFactory();
     gui.setScoreLabel("0");
+    gui.setTimeLabel("0");
     //TODO: CLEAR BOARD
     //TODO: CLEAR ON DECK
     
@@ -191,7 +192,7 @@ public class GameState
     public void actionPerformed( ActionEvent event )
     {
       time++;
-      //TODO: UPDATE IN GUI
+      gui.setTimeLabel(""+time);
     }
   }
   
