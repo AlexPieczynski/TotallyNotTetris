@@ -9,6 +9,7 @@ The main GUI class will have a single instance which other functions will need t
 
 code sample from GUI:
 ...
+
     private static GameGUI INSTANCE = null;    //Create instance holder
     private GameGUI(){
         // Construct the instance
