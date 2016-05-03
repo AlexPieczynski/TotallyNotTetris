@@ -24,7 +24,7 @@ public class GameState
   private OnDeckGrid onDeck;
   
   
-  // resets state of board
+  // initializes state of game
   public GameState()
   {
     score = 0;
@@ -47,6 +47,8 @@ public class GameState
     gui.setTimeLabel("0");
     gui.getBoard().reset();
     gui.getOnDeck().reset();
+    time = 0;
+    grid = new int[20][10];
     
     
     currentPiece = p.getPiece(PieceType.getRandom());
