@@ -7,19 +7,24 @@ import javax.swing.JOptionPane;
 public class GameState
 {
   private int score;
-  private PieceFactory p;
   private int linesCleared;
   private int level;
+  private PieceFactory p;
   private Tetromino currentPiece;
   private Tetromino nextPiece;
+  
   private Timer blockTimer;
-  private Timer timeElapsed;
-  private int time;
-  public int[][] grid = new int[20][10];
-  private GameGUI gui;
-  private OnDeckGrid onDeck;
   public TimeHandler blockTimeHandler;
   
+  private Timer timeElapsed;
+  private int time;
+  
+  private int[][] grid = new int[20][10];
+  private GameGUI gui;
+  private OnDeckGrid onDeck;
+  
+  
+  // resets state of board
   public GameState()
   {
     score = 0;
@@ -39,6 +44,8 @@ public class GameState
     onDeck = gui.getOnDeck();
     p = new PieceFactory();
     gui.setScoreLabel("0");
+    //TODO: CLEAR BOARD
+    //TODO: CLEAR ON DECK
     
     currentPiece = p.getPiece(PieceType.getRandom());
     nextPiece = p.getPiece(PieceType.getRandom());
@@ -49,24 +56,6 @@ public class GameState
     timeElapsed.start();
   }
   
-  public void moveLeft(){
-      currentPiece.moveLeft();
-  }
-  
-  
-  public void moveRight(){
-      currentPiece.moveRight();
-  }
-  
-  
-  public void rotateLeft(){
-      currentPiece.rotateLeft();
-  }
-  
-  
-  public void rotateRight(){
-      currentPiece.rotateRight();
-  }
   
   // called when a piece reaches the bottom of it's fall
   public void pieceDropped()
@@ -197,6 +186,7 @@ public class GameState
     }
   }
   
+  // function that gets called to keep track of total elasped time
   public class TimeElapsedHandler implements ActionListener{
     public void actionPerformed( ActionEvent event )
     {
@@ -210,6 +200,7 @@ public class GameState
   public void gameLost()
   {
     blockTimer.stop();
+    timeElapsed.stop();
     JOptionPane.showMessageDialog(null, "Game Over.\nPlease Try Again.",
                                   "GAME OVER", JOptionPane.PLAIN_MESSAGE);
     
@@ -230,40 +221,34 @@ public class GameState
   }
   
   
+  // ****** METHODS TO MOVE TETROMINOES ******
+  public void moveLeft(){
+      currentPiece.moveLeft();
+  }
   
-  // TEST CODE
+  
+  public void moveRight(){
+      currentPiece.moveRight();
+  }
+  
+  
+  public void rotateLeft(){
+      currentPiece.rotateLeft();
+  }
+  
+  
+  public void rotateRight(){
+      currentPiece.rotateRight();
+  }
+  // ****** END OF METHODS TO MOVE TETROMINOES ******
+  
+  
+  
+  // Run this to start the program
   public static void main(String[] args)
-  {
-//    GameState gs = new GameState();
-//    int[][] grid = gs.grid;  
-//    
-//    // fill grid, except top row
-//    for (int i=0; i < grid.length-1; i++) {
-//      for (int j=0; j < grid[0].length; j++) {
-//        grid[i][j] = 1;
-//      }
-//    }
-//    
-//    gs.printGrid();
-//    gs.clearLines();
-//    gs.printGrid();
-//    
-//    // fill grid, different pattern
-//    for (int i=0; i < grid.length-1; i++) {
-//      for (int j=0; j < grid[0].length; j++) {
-//        grid[i][j] = 0;
-//      }
-//    }
-//    for (int i=0; i < grid.length-1; i++) {
-//      for (int j=0; j < 5; j++) {
-//        grid[i][j] = 1;
-//      }
-//    }
-//    
-//    gs.printGrid();
-//    gs.clearLines();
-//    gs.printGrid();
-    
+  {    
     GameGUI gui = GameGUI.getInstance();
   }
+  
+  
 }
