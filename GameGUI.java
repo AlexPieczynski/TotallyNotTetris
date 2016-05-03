@@ -103,6 +103,9 @@ public class GameGUI extends JFrame implements KeyListener {
         scoreLabel.setText(s);
     }
     
+    public void setTimeLabel(String s){
+        timeLabel.setText(s);
+    }
     
     private void initComponents() {
         //Set Frame
@@ -161,8 +164,14 @@ public class GameGUI extends JFrame implements KeyListener {
         //Add score label
         textLabel = new JLabel("Score:");
         topPanel.add(textLabel);
-        scoreLabel = new JLabel("");
+        scoreLabel = new JLabel("0");
         topPanel.add(scoreLabel);
+        
+        //Add time label
+        textLabel2 = new JLabel("Time:");
+        topPanel.add(textLabel2);
+        timeLabel = new JLabel("00:00");
+        topPanel.add(timeLabel);
         
         //Set GameBoard - Extends JPanel
         //Gameboard class constructor takes care of initializing sizes
@@ -255,7 +264,6 @@ public class GameGUI extends JFrame implements KeyListener {
         
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
-        System.out.println("I am " + this.hashCode() + " in the GUI.");
         pack();
     }
     
@@ -276,6 +284,8 @@ public class GameGUI extends JFrame implements KeyListener {
     private JButton startButton;
     private JLabel textLabel;
     private JLabel scoreLabel;
+    private JLabel textLabel2;
+    private JLabel timeLabel;
     private JButton moveLBtn;
     private JButton moveRBtn;
     private JButton rotateLBtn;
