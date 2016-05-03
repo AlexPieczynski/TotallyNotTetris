@@ -2,6 +2,7 @@
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -11,6 +12,7 @@ import static java.awt.event.KeyEvent.VK_SPACE;
 import static java.awt.event.KeyEvent.VK_X;
 import static java.awt.event.KeyEvent.VK_Z;
 import java.awt.event.KeyListener;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -98,6 +100,13 @@ public class GameGUI extends JFrame implements KeyListener {
         //Not used
     }
 
+    public void setLevelLabel(String s){
+        levelLabel.setText(s);
+    }
+    
+    public void setLinesClearedLabel(String s){
+        linesClearedLabel.setText(s);
+    }
     
     public void setScoreLabel(String s){
         scoreLabel.setText(s);
@@ -124,6 +133,7 @@ public class GameGUI extends JFrame implements KeyListener {
                 System.exit(0);
             }
         });
+        
         aboutMitem = new JMenuItem("About");
         aboutMitem.addActionListener(new ActionListener(){
             @Override
@@ -133,8 +143,18 @@ public class GameGUI extends JFrame implements KeyListener {
             }
         });
         
+        helpMitem = new JMenuItem("Help");
+        helpMitem.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, help,"Help",
+                                              JOptionPane.PLAIN_MESSAGE);
+            }
+        });
+        
         fileMenu.add(exitMitem);
         helpMenu.add(aboutMitem);
+        helpMenu.add(helpMitem);
         
         menuBar.add(fileMenu);
         menuBar.add(helpMenu);
@@ -170,8 +190,13 @@ public class GameGUI extends JFrame implements KeyListener {
         //Add time label
         textLabel2 = new JLabel("Time:");
         topPanel.add(textLabel2);
-        timeLabel = new JLabel("00:00");
+        timeLabel = new JLabel("0");
         topPanel.add(timeLabel);
+        
+        textLabel3 = new JLabel("Level:");
+        levelLabel = new JLabel(" ");
+        topPanel.add(textLabel3);
+        topPanel.add(levelLabel);
         
         //Set GameBoard - Extends JPanel
         //Gameboard class constructor takes care of initializing sizes
@@ -246,17 +271,27 @@ public class GameGUI extends JFrame implements KeyListener {
         container.add(controlPanel, BorderLayout.PAGE_END);
         
         //Make filler space
-        Dimension d1 = new Dimension(200, 600);
+        Dimension d1 = new Dimension(200, 300);
         Dimension d2 = new Dimension(10, 600);
         LFillPanel = new JPanel();
         LFillPanel.setPreferredSize(d2);
         container.add(LFillPanel, BorderLayout.WEST);
         RFillPanel = new JPanel();
+        //RFillPanel.setLayout(new BoxLayout(RFillPanel, BoxLayout.Y_AXIS));
         RFillPanel.setPreferredSize(d1);
+        
+        //Set lines cleared lables
+        
+        textLabel4 = new JLabel("Lines Cleared:");
+        linesClearedLabel = new JLabel("0");
+        RFillPanel.add(textLabel4);
+        RFillPanel.add(linesClearedLabel);
         
         //Add on deck grid to side panel
         onDeck = new OnDeckGrid();
         RFillPanel.add(onDeck);
+        
+      
         
         container.add(RFillPanel, BorderLayout.EAST);
         
@@ -281,18 +316,29 @@ public class GameGUI extends JFrame implements KeyListener {
     private JMenu helpMenu;
     private JMenuItem exitMitem;
     private JMenuItem aboutMitem;
+    private JMenuItem helpMitem;
     private JButton startButton;
     private JLabel textLabel;
     private JLabel scoreLabel;
     private JLabel textLabel2;
     private JLabel timeLabel;
+    private JLabel textLabel3;
+    private JLabel levelLabel;
+    private JLabel textLabel4;
+    private JLabel linesClearedLabel;
     private JButton moveLBtn;
     private JButton moveRBtn;
     private JButton rotateLBtn;
     private JButton rotateRBtn;
     private JButton dropBtn;
     private GameState game;
-    private final String about = ("                      ----NoTetris----"
-            + "\nUse arrow keys to move pieces left or right. Z and X will rotate."
-            + "\nOtherwise, click the buttons to do your bidding...");
+    private final String help = (""
+            + "Press the start button to get the game started!"
+            + "\nUse arrow keys to move pieces left or right. Z and X will rotate,and"
+            + "\nspacebar will 'drop' the current piece. Otherwise, click the buttons to"
+            + "\ndo your bidding...");
+    private final String about = (""
+            + "Welcome to NoTetris, a deceptivley familiar gaming experience"
+            + "\nbrought to you by Ben Carver, Alex AlexPieczynski and Al Hernandez"
+            + "\nfor CS 342 project 5.");
 }
