@@ -85,7 +85,7 @@ public class GameGUI extends JFrame implements KeyListener {
                 game.rotateRight();
                 break;    
             case VK_SPACE:
-                game.timeHandler.actionPerformed(null);
+                game.blockTimeHandler.actionPerformed(null);
                 break;   
             default:    //Nevermind this
                 break;
@@ -230,7 +230,7 @@ public class GameGUI extends JFrame implements KeyListener {
         //Set drop button for control panel
         dropBtn = new JButton();
         dropBtn.setText("Drop");
-        dropBtn.addActionListener(game.timeHandler);
+        dropBtn.addActionListener(game.blockTimeHandler);
         dropBtn.setFocusable(false);    //Don't distract from keyListener
         controlPanel.add(dropBtn);
         //Add control panel

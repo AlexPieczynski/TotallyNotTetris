@@ -12,20 +12,26 @@ public class GameState
   private int level;
   private Tetromino currentPiece;
   private Tetromino nextPiece;
-  private Timer timer;
+  private Timer blockTimer;
+  private Timer timeElapsed;
+  private int time;
   public int[][] grid = new int[20][10];
   private GameGUI gui;
   private OnDeckGrid onDeck;
-  public TimeHandler timeHandler;
+  public TimeHandler blockTimeHandler;
   
   public GameState()
   {
     score = 0;
+    time = 0;
     linesCleared = 0;
     level = 1;
     
-    timeHandler = new TimeHandler();
-    timer = new Timer(800, timeHandler);
+    blockTimeHandler = new TimeHandler();
+    blockTimer = new Timer(800, blockTimeHandler);
+    
+    TimeElapsedHandler timeElapsedHandler = new TimeElapsedHandler();
+    timeElapsed = new Timer(1000, timeElapsedHandler);
   }
   
   public void startTimer() {
@@ -39,7 +45,8 @@ public class GameState
     currentPiece.drawPiece();
     nextPiece.drawOnDeck();    
     
-    timer.start();
+    blockTimer.start();
+    timeElapsed.start();
   }
   
   public void moveLeft(){
@@ -173,7 +180,7 @@ public class GameState
     linesCleared += n;
     if ( (linesCleared/10) > temp ){
       level++;
-      timer.setDelay((int)((((50 - (level*2))/60.0))*1000));
+      blockTimer.setDelay((int)((((50 - (level*2))/60.0))*1000));
     }    
   }
   
@@ -190,12 +197,19 @@ public class GameState
     }
   }
   
+  public class TimeElapsedHandler implements ActionListener{
+    public void actionPerformed( ActionEvent event )
+    {
+      time++;
+      //TODO: UPDATE IN GUI
+    }
+  }
   
   // called when the game has been lost
   // ends play
   public void gameLost()
   {
-    timer.stop();
+    blockTimer.stop();
     JOptionPane.showMessageDialog(null, "Game Over.\nPlease Try Again.",
                                   "GAME OVER", JOptionPane.PLAIN_MESSAGE);
     
