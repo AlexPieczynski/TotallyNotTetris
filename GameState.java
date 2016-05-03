@@ -43,11 +43,22 @@ public class GameState
     gui = GameGUI.getInstance();
     onDeck = gui.getOnDeck();
     p = new PieceFactory();
-    gui.setScoreLabel("0");
-    gui.setTimeLabel("0");
+    
+    linesCleared = 0;
+    gui.setLinesClearedLabel(""+linesCleared);
+    
+    score = 0;
+    gui.setScoreLabel(""+score);
+    
     gui.getBoard().reset();
     gui.getOnDeck().reset();
+    
+    level = 1;
+    gui.setLevelLabel(""+level);
+    
     time = 0;
+    gui.setTimeLabel(""+time);
+    
     grid = new int[20][10];
     
     
@@ -76,7 +87,8 @@ public class GameState
     // update score and GUI if lines were cleared
     if (c > 0) {
        gui.getBoard().updateSpace(grid);
-      linesCleared(c);
+       linesCleared(c);
+       gui.setLinesClearedLabel(""+linesCleared);
     }
     
     //update score in GUI
@@ -173,6 +185,7 @@ public class GameState
     linesCleared += n;
     if ( (linesCleared/10) > temp ){
       level++;
+      gui.setLevelLabel(""+level);
       blockTimer.setDelay((int)((((50 - (level*2))/60.0))*1000));
     }    
   }
