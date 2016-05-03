@@ -4,7 +4,9 @@ Written by Alex Pieczynski, Alberto Hernandez, and Benjamin Carver
   for CS 342 at the University of Illinois at Chicago, Spring 2016
 
 Design Patterns
-Singleton 
+
+Singleton
+
 The main GUI class will have a single instance which other functions will need to have access to. For example, functions will need to be able to change the score label in the Main GUI when a line is cleared. Instead of passing a reference to the Main GUI to the many functions that will need access to it, we can simply call a getInstance() function from within the method that must change the GUI.
 
 code sample from GUI:
@@ -35,6 +37,7 @@ of program compilation.
 
 
 Factory Pattern 
+
 We will create a class called PieceFactory, which returns an object of type Tetromino (which is the class that all the Tetrominos will be based on). This factory will take in a randomly generated integer (we can use an enum for clarity here) that corresponds to each of the 7 different pieces. It returns a Tetromino piece, useful for deciding the next Tetris piece that will begin falling when the current one drops.
 
 Code example:
