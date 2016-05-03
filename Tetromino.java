@@ -234,13 +234,15 @@ public abstract class Tetromino
     temp.updatePositions();
     
     for (Pair p : temp.getPositions()) { //Check for collisions at one left rotation.
-      
-      if(temp.getLogicGrid()[p.getY()][p.getX()] != 0){
+      try{
+       if(temp.getLogicGrid()[p.getY()][p.getX()] != 0){
           //Not allowed to rotate, so return false. Print statement for testing purposes.
-        System.out.println("Error trying to rotate left: not a valid move!");
         this.drawToLogic();
         return false;
-      }
+       }
+      } catch(ArrayIndexOutOfBoundsException e){
+         return false;
+        }
     }
     //Allowed to rotate. Return true.
     return true;
@@ -256,13 +258,15 @@ public abstract class Tetromino
     
     
     for (Pair p : temp.getPositions()) { //Check for collisions at one right rotation.
-      
+      try{
        if(temp.getLogicGrid()[p.getY()][p.getX()] != 0){
           //Not allowed to rotate, so return false. Print statement for testing purposes.
-          System.out.println("Error trying to rotate right: not a valid move!");
           this.drawToLogic();
           return false;
        }
+      } catch(ArrayIndexOutOfBoundsException e){
+         return false;
+        }
     }
     //Allowed to rotate. Return true.
     return true;
@@ -324,7 +328,6 @@ public abstract class Tetromino
       if(logicGrid[p.getY() + 1][p.getX()] != 0) { //Check for collisions at one space down.
         
         this.drawToLogic(); //Found a collision so return false. Redraw the old position before exiting.
-        System.out.println("Error: cannot move down further");
         return false;
       }
     }
