@@ -9,23 +9,23 @@ The main GUI class will have a single instance which other functions will need t
 
 code sample from GUI:
 ...
-  private static GameGUI INSTANCE = null;    //Create instance holder
-  private GameGUI(){
+    private static GameGUI INSTANCE = null;    //Create instance holder
+    private GameGUI(){
         // Construct the instance
         initComponents();
-  }
+    }
     
-  public static void main(String args[]) {
-    // Call to create the one and only instance of of the GUI 
-    getInstance();
-  }
+    public static void main(String args[]) {
+      // Call to create the one and only instance of of the GUI 
+      getInstance();
+    }
   
-  public static GameGUI getInstance(){
+    public static GameGUI getInstance(){
         if(INSTANCE == null){
             INSTANCE = new GameGUI();
         }
         return INSTANCE;
-  }
+    }
 ...
 
 Now, when another class in the program needs to access THE instance of the GUI, we can call the method getInstance;
@@ -37,8 +37,8 @@ Factory Pattern
 We will create a class called PieceFactory, which returns an object of type Tetromino (which is the class that all the Tetrominos will be based on). This factory will take in a randomly generated integer (we can use an enum for clarity here) that corresponds to each of the 7 different pieces. It returns a Tetromino piece, useful for deciding the next Tetris piece that will begin falling when the current one drops.
 
 Code example:
-  public class PieceFactory{
-  public Tetromino getPiece(PieceType piece){
+    public class PieceFactory{
+    public Tetromino getPiece(PieceType piece){
     
     //Base object for a peice.
     Tetromino t;
@@ -61,9 +61,9 @@ This switch statement handles all the shape cases that we need. Each one calls i
 
 ...
 
-  //Child classes of Tetromino
-  public class IPiece extends Tetromino{
-  public IPiece(){
+    //Child classes of Tetromino
+    public class IPiece extends Tetromino{
+    public IPiece(){
     super(PieceType.I);
     //Create array of all possible shapes for this tetromino.
     possibleShapes = new int[][][]{
