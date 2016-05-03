@@ -43,6 +43,7 @@ public class GameState
     gui = GameGUI.getInstance();
     onDeck = gui.getOnDeck();
     p = new PieceFactory();
+    Tetromino.resetLogicGrid();
     gui.setScoreLabel("0");
     gui.setTimeLabel("0");
     gui.getBoard().reset();

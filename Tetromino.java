@@ -114,6 +114,8 @@ public abstract class Tetromino
     }
   }
   
+
+  
   //**Methods for rotating the blocks left and right.
   public void rotateLeft() {
     if(this.type == PieceType.O){ //If square block, do nothing.
@@ -191,6 +193,12 @@ public abstract class Tetromino
       for(int j = 0; j < 10; j++)
        logicGrid[i][j] = blocks[i][j].getColor();
   }
+  
+    public static void resetLogicGrid(){
+    for(int i = 0; i < 20; i++)
+      for(int j = 0; j < 10; j++)
+       logicGrid[i][j] = 0;
+    }
   
   public int[][] getShape(){//Return the array that holds the shape coordinates.
     return shape;
