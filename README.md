@@ -1,4 +1,4 @@
-# TotallyNotTetris
+﻿# TotallyNotTetris
 A game written in Java that does not even remotely resemble Tetris®.
 Written by Alex Pieczynski, Alberto Hernandez, and Benjamin Carver
   for CS 342 at the University of Illinois at Chicago, Spring 2016
@@ -147,4 +147,4 @@ This switch statement handles all the shape cases that we need. Each one calls i
 
 ...
 
-This method allows us to utilize the factory to compile these different shapes for us when we need them. In other words, the factory acts like a constructor for the tetriminos.
+This method allows us to utilize the factory to compile these different shapes for us when we need them. In other words, the factory acts like a constructor for the tetrominos.

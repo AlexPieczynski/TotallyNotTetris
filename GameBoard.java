@@ -1,4 +1,5 @@
-
+//A class to represent the 2D gameboard that Tetris is played on.
+//This class contains a grid that represents the blocks on the grid that have been filled in.
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

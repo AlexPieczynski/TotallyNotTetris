@@ -3,11 +3,11 @@ import java.util.*;
 import javax.swing.*;
 import java.awt.*;
 
-public abstract class Tetromino
+//The class is abstract to allow for slightly different code for different types of pieces.
+public abstract class Tetromino  
 {
-  //An array of ints to hold the "shapes" and possible "shapes" of each piece.
-  //Used for collision detection.
   
+  //Variables to represent the current shape, possible shapes, and the coordinates of each Tetromino block.
   protected int[][][] possibleShapes;
   protected int[][] shape; //Values to be set by child classes.
   private Vector<Pair> positions = new Vector<Pair>(4);
@@ -23,7 +23,7 @@ public abstract class Tetromino
   protected final int COL_MAX= 10; //Max witdth of the grid in Tetris blocks.
   
   protected final int ROW_PIVOT = 1; // [Row 1][Column 2] in each block will be it's pivot point.
-  protected final int COL_PIVOT = 2; //Might not need to use these
+  protected final int COL_PIVOT = 2;
   
   protected int oStatus = 0; //Used to cycle through OrientationType enum.
   
@@ -60,8 +60,8 @@ public abstract class Tetromino
     this.orientation = orientation;
   }
   
-  //the method called each time the timer hits to drop the piece down one
-  //returns false when it hits the ground and can't move down any longer
+  //The method called each time the timer hits to drop the piece down one
+  //returns false when a block can not move down any further. 
   public boolean moveDown(){
 
     if(canMoveDown()){
@@ -82,7 +82,6 @@ public abstract class Tetromino
   
   //called from keyListener for left arrow key
   //move the piece to the left one spot on the grid, if possible
-  //returns true if the piece moved, false otherwise
   public void moveLeft(){
     
     if(canMoveLeft()){
@@ -99,7 +98,6 @@ public abstract class Tetromino
   
    //called from keyListener for right arrow key
   //move the piece to the right one spot on the grid, if possible
-  //returns true if the piece moved, false otherwise
   public void moveRight(){
 
     if(canMoveRight()) {
@@ -116,7 +114,7 @@ public abstract class Tetromino
   
 
   
-  //**Methods for rotating the blocks left and right.
+  //Methods for rotating the blocks left and right.
   public void rotateLeft() {
     if(this.type == PieceType.O){ //If square block, do nothing.
       return;
@@ -126,7 +124,7 @@ public abstract class Tetromino
      this.erasePiece();
      this.eraseFromLogic();
      
-     rotate(); //The default rotation is left so simply do one rotation.
+     rotate(); //The default rotation is to the left so simply do one rotation.
      
      this.updatePositions();
      this.drawPiece();
@@ -137,7 +135,8 @@ public abstract class Tetromino
   public void rotateRight() {
     if(this.type == PieceType.O){ //If square block, do nothing.
       return;
-    }//For all other blocks rotate 3 times (3 left rotations == 1 right rotation).
+    }
+    //For all other blocks rotate 3 times (3 left rotations == 1 right rotation).
     if(canRotateRight()){
       
       this.erasePiece();
@@ -160,7 +159,7 @@ public abstract class Tetromino
   public int getYCord(){
     return yCord;
   }
-  //Methods to set the X and Y coordinates. Used for testing purposes.
+  //Methods to set the X and Y coordinates.
   public void setXCord(int x){
     xCord = x;
   }
@@ -187,7 +186,7 @@ public abstract class Tetromino
     return temp;
   }
   
-  public void setLogicGrid(){
+  public void setLogicGrid(){ //Method to set the logic grid, which is used for collision detection.
     
     for(int i = 0; i < 20; i++)
       for(int j = 0; j < 10; j++)
@@ -200,11 +199,11 @@ public abstract class Tetromino
        logicGrid[i][j] = 0;
     }
   
-  public int[][] getShape(){//Return the array that holds the shape coordinates.
+  public int[][] getShape(){//Return the array that holds the current shape coordinates.
     return shape;
   }
   
-  public void setShape(int[][] newShape){ //Set the shape array and dimensions of the Tetromino
+  public void setShape(int[][] newShape){ //Used to change the shape array.
     
     this.shape = new int[4][4];
     positions.clear();//Make sure positions array is empty each time we set new shape.
@@ -222,7 +221,7 @@ public abstract class Tetromino
   
   public void updatePositions(){ //Method for updating the positions Vector.
     
-    positions.clear(); //First clear the Vector to help avoid errors.
+    positions.clear(); //First clear the Vector to avoid errors.
     
     for (int row = 0; row < 4; row++)
       for (int col = 0; col < 4; col++)
@@ -236,7 +235,7 @@ public abstract class Tetromino
   public boolean canRotateLeft(){ //Helper method to see if the Tetromino is allowed to rotate.
     
     Tetromino temp = this.clonePiece(); //Clone the piece to avoid modifying original piece.
-    this.eraseFromLogic(); //Remove from the grid logic to avoid unwanted collisions.
+    this.eraseFromLogic(); //Remove from the logic grid to avoid unwanted collisions.
     
     temp.rotate(); //Try a left rotation.
     temp.updatePositions();
@@ -244,11 +243,11 @@ public abstract class Tetromino
     for (Pair p : temp.getPositions()) { //Check for collisions at one left rotation.
       try{
        if(temp.getLogicGrid()[p.getY()][p.getX()] != 0){
-          //Not allowed to rotate, so return false. Print statement for testing purposes.
-        this.drawToLogic();
+          //Not allowed to rotate, so return false.
+        this.drawToLogic(); //Redraw the old position before exiting.
         return false;
        }
-      } catch(ArrayIndexOutOfBoundsException e){
+      } catch(ArrayIndexOutOfBoundsException e){ //Out of bounds so rotation is not allowed.
          return false;
         }
     }
@@ -268,11 +267,11 @@ public abstract class Tetromino
     for (Pair p : temp.getPositions()) { //Check for collisions at one right rotation.
       try{
        if(temp.getLogicGrid()[p.getY()][p.getX()] != 0){
-          //Not allowed to rotate, so return false. Print statement for testing purposes.
-          this.drawToLogic();
+          //Not allowed to rotate, so return false.
+          this.drawToLogic(); //Redraw the old position before exiting.
           return false;
        }
-      } catch(ArrayIndexOutOfBoundsException e){
+      } catch(ArrayIndexOutOfBoundsException e){ //Out of bounds so rotation is not allowed.
          return false;
         }
     }
@@ -284,15 +283,15 @@ public abstract class Tetromino
     
     int leftSide = leftMostCol();
     
-    if(leftSide + xCord - 1 < 0){ //Already at left limit of screen.
+    if(leftSide + xCord - 1 < 0){ //Already at left limit of grid.
         return false;}
     
     this.eraseFromLogic(); //Remove the piece from logic grid to avoid accidental collision detection
     
     for (Pair p : this.getPositions()){
       
-      if(logicGrid[p.getY()][p.getX() - 1] != 0) { //Check fro collisions at one space to right.
-        this.drawToLogic(); //Found a collision so return false.
+      if(logicGrid[p.getY()][p.getX() - 1] != 0) { //Check for collisions at one space to right.
+        this.drawToLogic(); //Found a collision so return false. Redraw the old position before exiting.
         return false;
       }
     }
@@ -304,15 +303,15 @@ public abstract class Tetromino
     
     int rightSide = rightMostCol();
     
-    if(rightSide + xCord + 1 > 9){ //Already at right limit of screen.
+    if(rightSide + xCord + 1 > 9){ //Already at right limit of grid.
         return false;}
     
     this.eraseFromLogic(); //Remove the piece from logic grid to avoid accidental collision detection
     
     for (Pair p : this.getPositions()){
       
-      if(logicGrid[p.getY()][p.getX() + 1] != 0) { //Check fro collisions at one space to right.
-        this.drawToLogic(); //Found a collision so return false.
+      if(logicGrid[p.getY()][p.getX() + 1] != 0) { //Check for collisions at one space to right.
+        this.drawToLogic(); //Found a collision so return false. Redraw the old position before exiting.
         return false;
       }
     }
@@ -343,7 +342,7 @@ public abstract class Tetromino
     return true;
   }
   
-  public int lowestRow(){  //Return the index of the first non-zero row in the shape array.
+  public int lowestRow(){  //Return the index of the first non-zero row in the shape array from the bottom.
     int lowestRow = 0;
     
     for (int row = 0; row < 4; row++)
@@ -355,7 +354,7 @@ public abstract class Tetromino
     return lowestRow;
   }
   
-  public int highestRow(){  //Return the index of the first non-zero row in the shape array.
+  public int highestRow(){  //Return the index of the first non-zero row in the shape array from the top.
     int highestRow = 3;
     
     for (int col = 0; col < 4; col++)
@@ -366,7 +365,7 @@ public abstract class Tetromino
     
     return highestRow;
   }
-  
+  //--Helper methods used to check for valid movement/rotations.
   public int leftMostCol(){ //Return index of leftmost non-zero column in shape array.
     int leftMostCol = 3;
     
@@ -412,7 +411,7 @@ public abstract class Tetromino
     }
   }
   
-  public void erasePiece(){ //A helper method for removing each piece from grid.
+  public void erasePiece(){ //A method for removing each piece from grid.
     
     for (Pair p : this.getPositions()){
       blocks[p.getY()][p.getX()].setBlock(0);
@@ -420,7 +419,7 @@ public abstract class Tetromino
   }
   
   public void drawToLogic(){
-    for (Pair p : this.getPositions()){   //Update the logic grid. Used for collision detection.
+    for (Pair p : this.getPositions()){ //Methods to update the logic grid. Used for collision detection.
       logicGrid[p.getY()][p.getX()] = blockColor;
     }
   }
@@ -428,28 +427,6 @@ public abstract class Tetromino
   public void eraseFromLogic(){
     for (Pair p : this.getPositions()){
       logicGrid[p.getY()][p.getX()] = 0;
-    }
-  }
-  
-  public void printLogicGrid(){ //Used for testing.
-    System.out.println(" - - - - - - - - - - ");
-     for(int i = 0; i < 20; i++){
-      for(int j = 0; j < 10; j++){
-        System.out.print(" " + logicGrid[i][j]);
-      }
-      System.out.println();
-    }
-     System.out.println(" - - - - - - - - - - ");
-  }
-  
-  public void printPositions(){ //Helper method for testing.
-    if(getPositions().size() == 0){
-      System.out.println("Positions is empty.");}
-    else{
-     for (Pair p : this.getPositions()){   //Print current positions.
-      System.out.print(" x: "+ p.getX() +" y: " + p.getY());
-     }
-     System.out.println();
     }
   }
   

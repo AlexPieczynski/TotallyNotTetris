@@ -1,5 +1,6 @@
-//Assigns an string instead of int to each type of Tetromino piece
-//  to allow for more readable code
+//An enum to represent the 7 different types of Tetrominos.
+//An enum is used instead of an int in order to help avoid errors and keep the code organized.
+
 import java.util.Random;
 
 

@@ -1,4 +1,5 @@
-
+//This class uses the Singleton design pattern. It contains the GUI that displays the 2D Board.
+//Also contains all of the ActionListeners used to read a player's keyboard commands.
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;

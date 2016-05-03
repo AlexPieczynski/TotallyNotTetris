@@ -1,54 +1,55 @@
 //A class to implement our Factory design pattern for the Tetris pieces.
-//Each call to getPiece will get a randomly generated piece.
+//Each call to getPiece will return a randomly generated piece.
 
 public class PieceFactory{
   
   GameGUI gui = GameGUI.getInstance();
   
-  
+  //Constructor requires a PieceType enum to help avoid errors in using the method.
   public Tetromino getPiece(PieceType piece){
     
     //Base object for a peice.
     Tetromino t;
 
-    //Get an I (line) piece.
+    
     switch(piece)
     {
-      case I:
+      case I://Get an I (line) piece.
         t = new IPiece();
         return t;
         
-      case T:
+      case T: //Get a T piece.
         t = new TPiece();
         return t;
-        
-      case O:
+         
+      case O: //Get an O (square) piece.
         t = new OPiece();
         return t;
         
-      case L:
+      case L: //Get an L piece.
         t = new LPiece();
         return t;
         
-      case J:
+      case J: //Get a J piece. Mirror image of L piece.
         t = new JPiece();
         return t;
       
       case S:
-        t = new SPiece();
+        t = new SPiece();//Get an S piece.
         return t;
         
       case Z:
-        t = new ZPiece();
+        t = new ZPiece(); //Get a Z piece. Mirror image of S piece.
         return t;
       
       default:
-        return null;
+        return null; //If a valid enum type is not provided, simply return null value.
     }
   }
 
-  
 //Child classes of Tetromino
+//Each class has an array of all of its possible orientations. 
+//Also has a variable to represent its color. Each type of piece has a different color.
 public class IPiece extends Tetromino{
   public IPiece(){
     super(PieceType.I);
@@ -75,10 +76,9 @@ public class IPiece extends Tetromino{
       {0,0,0,0}}
       }; //Set array for I shape.
             
-    this.setShape(possibleShapes[0].clone());
+    this.setShape(possibleShapes[0]);
     this.blockColor = 1;
   }
-  
 }
 
 public class TPiece extends Tetromino{
@@ -107,7 +107,7 @@ public class TPiece extends Tetromino{
       {0,0,1,0},
       {0,0,0,0}}
       }; //Set array for T shape.
-    this.setShape(possibleShapes[0].clone());
+    this.setShape(possibleShapes[0]);
     this.blockColor = 2;
   }
 }
@@ -152,7 +152,7 @@ public class LPiece extends Tetromino{
       {0,0,1,0},
       {0,0,0,0}}
       }; //Set array for L shape.
-    this.setShape(possibleShapes[0].clone());
+    this.setShape(possibleShapes[0]);
     this.blockColor = 4;
   }
 }
@@ -182,7 +182,7 @@ public class JPiece extends Tetromino{
       {0,1,1,0},
       {0,0,0,0}}
       }; //Set array for J shape.
-    this.setShape(possibleShapes[0].clone());
+    this.setShape(possibleShapes[0]);
     this.blockColor = 5;
   }
 }
@@ -211,7 +211,7 @@ public class SPiece extends Tetromino{
       {0,0,0,1},
       {0,0,0,0}}
       }; //Set array for S shape.
-    this.setShape(possibleShapes[0].clone());
+    this.setShape(possibleShapes[0]);
     this.blockColor = 6;
   }
 }
@@ -241,9 +241,9 @@ public class ZPiece extends Tetromino{
       {0,0,1,0},
       {0,0,0,0}}
       }; //Set array for Z shape.
-    this.setShape(possibleShapes[0].clone());
+    this.setShape(possibleShapes[0]);
     this.blockColor = 7;
   }
-}
+}//End of child classes of Tetromino. 
 
-}
+} //End of PieceFactory class.

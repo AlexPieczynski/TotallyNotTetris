@@ -1,4 +1,5 @@
-//class to represent a position on a grid
+//This class represents a coordinate on a 2-dimensional plane. 
+//It is a very simple class that will be used to store the locations of the 4 blocks in each Tetromino.
 
 public class Pair
 {

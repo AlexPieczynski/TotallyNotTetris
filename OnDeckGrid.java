@@ -1,3 +1,4 @@
+//This class represents a mini 2D grid that displays the next piece the player will recieve.
 import java.awt.GridLayout;
 
 import javax.swing.JPanel;

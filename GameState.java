@@ -1,4 +1,5 @@
-//class used to represent the current state of the Tetris game
+//This class is used to represent the current state of the Tetris game.
+//This class handles scorekeeping and keeps track of the game logic.
 import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
