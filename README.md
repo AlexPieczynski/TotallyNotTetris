@@ -61,8 +61,8 @@ This switch statement handles all the shape cases that we need. Each one calls i
 
 ...
 
-//Child classes of Tetromino
-public class IPiece extends Tetromino{
+  //Child classes of Tetromino
+  public class IPiece extends Tetromino{
   public IPiece(){
     super(PieceType.I);
     //Create array of all possible shapes for this tetromino.
